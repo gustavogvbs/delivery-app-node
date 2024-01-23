@@ -1,10 +1,12 @@
-import { User } from "@prisma/client";
 import { prisma } from "../../../../prisma/client";
-import { CreateUserDTO } from "../../dtos/CreateUserDTO";
+import { CreateUserDTO, UserResponseDTO } from "../../dtos/CreateUserDTO";
 import { AppError } from "../../../../errors/AppErro";
 
+import jwt from "jsonwebtoken";
+import { env } from "../../../../env";
+
 export class CreateUserUseCase {
-	async execute({ name, email }: CreateUserDTO): Promise<User> {
+	async execute({ name, email }: CreateUserDTO): Promise<UserResponseDTO> {
 		const userAlredyExists = await prisma.user.findUnique({
 			where: {
 				email,
@@ -22,6 +24,17 @@ export class CreateUserUseCase {
 			},
 		});
 
-		return user;
+		const token = jwt.sign(
+			{
+				name: user.name,
+				email: user.email,
+			},
+			env.JWT_SECRET_KEY,
+			{
+				expiresIn: "12h",
+			}
+		);
+
+		return { user, token };
 	}
 }

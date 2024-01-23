@@ -3,8 +3,8 @@
 - Id: String @unico
 - Nome: String
 - Email String @unico
-- Senha: String @password
-- Tipo: Enun = ADMIN, DEV, TENANT, CLIENT
+- Senha: String
+- Role: Enun = ADMIN, DEV, TENANT, CLIENT
 - ProfileId: Relação? [ Profile ] 1 == 1
 - TenantId: Relação? [ Tenant ] 1 == 1
 
