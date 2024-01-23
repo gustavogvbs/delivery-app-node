@@ -10,14 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//enum role {
+// admin
+// dev 
+// tenant
+// client
+//}
+
 model User { // Tabela
   // Colunas da tabela
   id String @id @default(uuid())
   email String @unique
-  name String
+  name String  
+  password String @unique
+  role String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@map("users") // Renomeia a tabela
 }
+
+
+
 
