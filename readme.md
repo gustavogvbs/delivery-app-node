@@ -1,8 +1,8 @@
 ### Usuário
 
+- Id: String @unico
 - Nome: String
 - Email String @unico
-- Id: String @unico
 - Senha: String @password
 - Tipo: Enun = ADMIN, DEV, TENANT, CLIENT
 - ProfileId: Relação? [ Profile ] 1 == 1
@@ -54,3 +54,9 @@
 - Numero
 - Complmento?
 - ProfileId: Relação [ Profile ] 1 == 1
+
+### Image
+
+- Id
+- Name
+- Url

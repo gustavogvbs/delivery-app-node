@@ -1,4 +1,4 @@
-import { S3Storage } from "../../../middleware/S3Storage";
+import { S3Storage } from "../../../utils/S3Storage";
 
 export class UploadImageService {
 	async execute(file: Express.Multer.File): Promise<void> {
