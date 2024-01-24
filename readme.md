@@ -1,3 +1,13 @@
+# Prosimos Passos
+
+Valos popular o nosso banco de dados(Criar as demais tabelas)
+
+A pós criar as novas tabelas seguindo a documentação do prisma
+Rode o comando **npx prisma migrate dev** vai pedir para que vc informe o nome da migration, colocar == initial
+Caso de erro, apague a pasta migration e o arquivo dev.db dentro da pasta prisma e rode o comando acima novamente
+
+E para verificar se o banco de dados foi certinho rode o comando **npx prisma studio**
+
 ### Usuário
 
 - Id: String @unico
@@ -5,16 +15,22 @@
 - Email String @unico
 - Senha: String
 - Role: Enun = ADMIN, DEV, TENANT, CLIENT
+
+Ignorar esses campos
+
 - ProfileId: Relação? [ Profile ] 1 == 1
 - TenantId: Relação? [ Tenant ] 1 == 1
 
 ### Profile
 
 - Id: String @unico
-- EndereçosId: Relação [ Endereços ] 1 == +
 - Telefone: String
-- PedidosId: Relação [ Pedidos ] 1 == +
+
+Ignorar esses campos
+
 - Image: File
+- PedidosId: Relação [ Pedidos ] 1 == +
+- EndereçosId: Relação [ Endereços ] 1 == +
 
 ### Tenant
 
@@ -23,6 +39,9 @@
 - Name: String
 - PrimaryColor: String
 - Phone: String
+
+Ignorar esses campos
+
 - ProductId: Relação [ Products ] 1 == +
 - CategoryId: Relação [ Categories ] 1 == +
 
@@ -33,30 +52,48 @@
 - Name: String
 - Price: Number
 - Description: String
+- created_at DateTime @default(now())
+- updated_at DateTime @updatedAt
+
+Ignorar esses campos
+
 - Image: File
 - CategoryId: Relação [ Category ] 1 == 1
 
 ### Category
 
-- Name
-- Id
+- Id String @unico
+- Name String
+- created_at DateTime @default(now())
+- updated_at DateTime @updatedAt
+
+Ignorar esses campos
+
 - Image
 - TenantId: Relação [ Tenant ] 1 == 1
 - ProductsId: Relação [ Products ] 1 == +
 
 ### Adress
 
-- Id
-- Cep
-- Cidade
-- Bairro
-- Rua
-- Numero
-- Complmento?
+- Id String @unico
+- Cep String
+- Cidade String
+- Bairro String
+- Rua String
+- Numero String
+- Complmento? String
+- created_at DateTime @default(now())
+- updated_at DateTime @updatedAt
+
+  Ignorar esses campos
+
 - ProfileId: Relação [ Profile ] 1 == 1
 
 ### Image
 
-- Id
-- Name
-- Url
+- Id String @unico
+- Name String
+- Url String
+- Content_type String
+- created_at DateTime @default(now())
+- updated_at DateTime @updatedAt

@@ -1,12 +1,18 @@
 import { prisma } from "../../../../prisma/client";
-import { CreateUserDTO, UserResponseDTO } from "../../dtos/CreateUserDTO";
+import { CreateUserDTO } from "../../dtos/CreateUserDTO";
+import { UserResponseDTO } from "../../dtos/ResponseUserDTO";
 import { AppError } from "../../../../errors/AppErro";
 
-import jwt from "jsonwebtoken";
-import { env } from "../../../../env";
+import { JwtApi } from "../../../../utils/JwtApi";
+
+const useJwtApi = new JwtApi();
 
 export class CreateUserUseCase {
-	async execute({ name, email }: CreateUserDTO): Promise<UserResponseDTO> {
+	async execute({
+		name,
+		email,
+		password,
+	}: CreateUserDTO): Promise<UserResponseDTO> {
 		const userAlredyExists = await prisma.user.findUnique({
 			where: {
 				email,
@@ -19,21 +25,14 @@ export class CreateUserUseCase {
 
 		const user = await prisma.user.create({
 			data: {
+				password,
 				name,
 				email,
+				role: "client",
 			},
 		});
 
-		const token = jwt.sign(
-			{
-				name: user.name,
-				email: user.email,
-			},
-			env.JWT_SECRET_KEY,
-			{
-				expiresIn: "12h",
-			}
-		);
+		const token = useJwtApi.generate(user);
 
 		return { user, token };
 	}
