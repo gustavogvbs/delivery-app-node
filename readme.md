@@ -1,6 +1,12 @@
 # Prosimos Passos
 
-Valos popular o nosso banco de dados(Criar as demais tabelas)
+Valos popular o nosso banco de dados(Criar as demais tabelas) caso tenha alguma duvida, puxe pela documentação do prisma
+links abaixo:
+Sobre a criação de tabelas(Models) = https://www.prisma.io/docs/orm/prisma-schema/data-model/models
+Sobre a definição de colunas(Filds) = https://www.prisma.io/docs/orm/prisma-schema/data-model/models#defining-fields
+Sobre a definição de attributos = https://www.prisma.io/docs/orm/prisma-schema/data-model/models#defining-attributes
+
+qualquer duvida que voçe tenha anote e me mande no discord, ou algo que vc não consiga fazer deixe de lado que nós veremos isso juntos
 
 A pós criar as novas tabelas seguindo a documentação do prisma
 Rode o comando **npx prisma migrate dev** vai pedir para que vc informe o nome da migration, colocar == initial
