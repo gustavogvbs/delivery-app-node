@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
     "husky:prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts"
@@ -19,7 +21,6 @@
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
-    "mime": "^4.0.1",
     "mime-types": "^2.1.35",
     "multer": "^1.4.5-lts.1",
     "zod": "^3.22.4"
@@ -27,7 +28,6 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
-    "@types/mime": "^3.0.4",
     "@types/mime-types": "^2.1.4",
     "@types/multer": "^1.4.11",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
