@@ -1,10 +1,9 @@
-import { prisma } from "@prismasrc/client";
 import { AppError } from "@errors/AppErro";
+import { prisma } from "@prismasrc/client";
+import { JwtApi } from "@utils/JwtApi";
 
 import { CreateUserDTO } from "../../dtos/CreateUserDTO";
 import { UserResponseDTO } from "../../dtos/ResponseUserDTO";
-
-import { JwtApi } from "@utils/JwtApi";
 
 const useJwtApi = new JwtApi();
 

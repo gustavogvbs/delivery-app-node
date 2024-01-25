@@ -1,3 +1,6 @@
 {
-  "*.ts": ["npm eslint 'src/**' --fix", "npm prettier --check 'src/**'"]
+  "*.ts": [
+    "npx eslint 'src/**' --fix",
+    "npx prettier  --check 'src/**' --config '.prettierrc.json' --write"
+  ]
 }

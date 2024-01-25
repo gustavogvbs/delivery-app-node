@@ -1,10 +1,11 @@
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-import { AppError } from "@errors/AppErro";
-import { JWTZod } from "@type/jwt-types";
-
 import { env } from "@src/env";
+
+import { AppError } from "@errors/AppErro";
+
+import { JWTZod } from "@type/jwt-types";
 
 export class auth {
   private(req: Request, res: Response, next: NextFunction) {

@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
-import { UploadImageService } from "./UploadImageService";
 import { AppError } from "@errors/AppErro";
+
+import { UploadImageService } from "./UploadImageService";
 
 export class AWSImageController {
   async Upload(req: Request, res: Response) {

@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 
-import { prisma } from "@prismasrc/client";
 import { AppError } from "@errors/AppErro";
+import { prisma } from "@prismasrc/client";
 
 import { FindUserDTO } from "../../dtos/FindUserDTO";
 

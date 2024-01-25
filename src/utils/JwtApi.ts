@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
+
 import { env } from "@src/env";
+
 import { JWTTypes } from "@type/jwt-types";
 
 export class JwtApi {
