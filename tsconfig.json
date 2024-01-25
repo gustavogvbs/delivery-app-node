@@ -1,9 +1,22 @@
 {
-	"compilerOptions": {
-		"sourceMap": true,
-		"outDir": "dist",
-		"strict": true,
-		"lib": ["esnext"],
-		"esModuleInterop": true
-	}
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "paths": {
+      "@configs/*": ["configs/*"],
+      "@errors/*": ["errors/*"],
+      "@middleware/*": ["middleware/*"],
+      "@modules/*": ["modules/*"],
+      "@prismasrc/*": ["prisma/*"],
+      "@routes/*": ["routes/*"],
+      "@services/*": ["services/*"],
+      "@type/*": ["types/*"],
+      "@utils/*": ["utils/*"],
+      "@src/*": ["*"],
+    },
+  },
 }

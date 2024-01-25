@@ -1,0 +1,45 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true,
+    "jest": false
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": ["@typescript-eslint", "import-helpers"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always", // new line between groups
+        "groups": [
+          ["module"],
+          "/^@src/env/",
+          ["/^@modules/", "/^@routes/"],
+          [
+            "/^@middleware/",
+            "/^@prismasrc/",
+            "/^@services/",
+            "/^@errors/",
+            "/^@utils/",
+            "/^@configs/"
+          ],
+          ["/^@type/"],
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": { "order": "asc", "ignoreCase": true }
+      }
+    ]
+  }
+}

@@ -1,40 +1,39 @@
-import { prisma } from "../../../../prisma/client";
-import { CreateUserDTO, UserResponseDTO } from "../../dtos/CreateUserDTO";
-import { AppError } from "../../../../errors/AppErro";
+import { AppError } from "@errors/AppErro";
+import { prisma } from "@prismasrc/client";
+import { JwtApi } from "@utils/JwtApi";
 
-import jwt from "jsonwebtoken";
-import { env } from "../../../../env";
+import { CreateUserDTO } from "../../dtos/CreateUserDTO";
+import { UserResponseDTO } from "../../dtos/ResponseUserDTO";
+
+const useJwtApi = new JwtApi();
 
 export class CreateUserUseCase {
-	async execute({ name, email }: CreateUserDTO): Promise<UserResponseDTO> {
-		const userAlredyExists = await prisma.user.findUnique({
-			where: {
-				email,
-			},
-		});
+  async execute({
+    name,
+    email,
+    password,
+  }: CreateUserDTO): Promise<UserResponseDTO> {
+    const userAlredyExists = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
 
-		if (userAlredyExists) {
-			throw new AppError("User already exists");
-		}
+    if (userAlredyExists) {
+      throw new AppError("User already exists");
+    }
 
-		const user = await prisma.user.create({
-			data: {
-				name,
-				email,
-			},
-		});
+    const user = await prisma.user.create({
+      data: {
+        password,
+        name,
+        email,
+        role: "client",
+      },
+    });
 
-		const token = jwt.sign(
-			{
-				name: user.name,
-				email: user.email,
-			},
-			env.JWT_SECRET_KEY,
-			{
-				expiresIn: "12h",
-			}
-		);
+    const token = useJwtApi.generate(user);
 
-		return { user, token };
-	}
+    return { user, token };
+  }
 }
