@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { CreateUserController } from "../modules/user/useCases/createUser/CreateUserController";
-import { LoginUserController } from "../modules/user/useCases/loginUser/LoginUserController";
-import { FindUserController } from "../modules/user/useCases/findUser/FindUserController";
+import { CreateUserController } from "@modules/user/useCases/createUser/CreateUserController";
+import { LoginUserController } from "@modules/user/useCases/loginUser/LoginUserController";
+import { FindUserController } from "@modules/user/useCases/findUser/FindUserController";
 import { auth } from "../middleware/auth";
 
 const createUserController = new CreateUserController();
