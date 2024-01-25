@@ -1,3 +1,3 @@
 export interface FindUserDTO {
-	id: string;
+  id: string;
 }

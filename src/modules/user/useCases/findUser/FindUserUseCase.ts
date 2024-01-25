@@ -1,21 +1,22 @@
 import { User } from "@prisma/client";
-import { prisma } from "../../../../prisma/client";
-import { AppError } from "../../../../errors/AppErro";
+
+import { AppError } from "@errors/AppErro";
+import { prisma } from "@prismasrc/client";
 
 import { FindUserDTO } from "../../dtos/FindUserDTO";
 
 export class FindUserUseCase {
-	async execute({ id }: FindUserDTO): Promise<User> {
-		const user = await prisma.user.findUnique({
-			where: {
-				id,
-			},
-		});
+  async execute({ id }: FindUserDTO): Promise<User> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
 
-		if (!user) {
-			throw new AppError("User already exists");
-		}
+    if (!user) {
+      throw new AppError("User already exists");
+    }
 
-		return user;
-	}
+    return user;
+  }
 }
