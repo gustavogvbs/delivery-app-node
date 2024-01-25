@@ -32,15 +32,15 @@ model User { // Tabela
 
 model Profile {//Tabela
   //Colunas da tabela
-  id String @unique
-  cellphone String 
+  id String @id @default(uuid())
+  phone String 
 
   @@map("profilers") // Renomeia a tabela
 }
 
 model Tenant {// Tabela
   // Colunas da tabela
-  id String @unique
+  id String @id @default(uuid())
   slug String @unique
   name String
   primaryColor String
@@ -51,7 +51,7 @@ model Tenant {// Tabela
 
 model Product {// Tabela
   // Colunas da tabela
-id String @unique
+id String @id @default(uuid())
 Slug String @unique
 Name String
 price Float
@@ -64,7 +64,7 @@ updated_at DateTime @updatedAt
 
 model Category {// Tabela
   // Colunas da tabela
-id String @unique
+id String @id @default(uuid())
 name String
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
@@ -74,22 +74,22 @@ updated_at DateTime @updatedAt
 
 model Adress { // Tabela
   // Colunas da tabela
-id String @unique
+id String @id @default(uuid())
 cep String
 city String
 neighborhood String
 road String
 number String
-complment String?
+complment String @default("")
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
 
-@@map("adress") //Renomeia a tabela  
+@@map("adresses") //Renomeia a tabela  
 }
 
 model image {// Tabela
   // Colunas da tabela
-id String @unique
+id String @id @default(uuid())
 name String
 url String
 content_type String
