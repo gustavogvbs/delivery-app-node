@@ -30,6 +30,74 @@ model User { // Tabela
   @@map("users") // Renomeia a tabela
 }
 
+model Profile {//Tabela
+  //Colunas da tabela
+  id String @id @default(uuid())
+  phone String 
+
+  @@map("profilers") // Renomeia a tabela
+}
+
+model Tenant {// Tabela
+  // Colunas da tabela
+  id String @id @default(uuid())
+  slug String @unique
+  name String
+  primaryColor String
+  phone String
+
+  @@map("tenants") // Renomeia a tabela
+}
+
+model Product {// Tabela
+  // Colunas da tabela
+id String @id @default(uuid())
+Slug String @unique
+Name String
+price Float
+Description String
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+
+@@map("products") // Renomeia a tabela
+}
+
+model Category {// Tabela
+  // Colunas da tabela
+id String @id @default(uuid())
+name String
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+
+@@map("categorys") //Renomeia a tabela
+}
+
+model Adress { // Tabela
+  // Colunas da tabela
+id String @id @default(uuid())
+cep String
+city String
+neighborhood String
+road String
+number String
+complment String @default("")
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+
+@@map("adresses") //Renomeia a tabela  
+}
+
+model image {// Tabela
+  // Colunas da tabela
+id String @id @default(uuid())
+name String
+url String
+content_type String
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+
+@@map("images") //Renomeia a tabela
+}
 
 
 
