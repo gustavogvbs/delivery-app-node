@@ -11,6 +11,9 @@ export class FindUserUseCase {
       where: {
         id,
       },
+      include: {
+        profile: true,
+      },
     });
 
     if (!user) {
