@@ -27,7 +27,7 @@ export class CreateProfileUseCase {
 
     const user = await prisma
       .$transaction(async (tx) => {
-        const createUser = await tx.user.create({
+        const user = await tx.user.create({
           data: {
             name,
             email,
@@ -42,21 +42,9 @@ export class CreateProfileUseCase {
         await tx.profile.create({
           data: {
             phone,
-            userId: createUser.id,
+            userId: user.id,
           },
         });
-
-        const user = await tx.user.findUnique({
-          where: {
-            id: createUser.id,
-          },
-          include: {
-            profile: true,
-          },
-        });
-
-        if (!user) throw new AppError("Not found");
-
         return user;
       })
       .catch(() => {
