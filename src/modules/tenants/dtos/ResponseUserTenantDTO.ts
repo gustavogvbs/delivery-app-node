@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 
-export interface UserResponseDTO {
+export interface UserResponseTenantDTO {
   user: User;
   token: string;
 }

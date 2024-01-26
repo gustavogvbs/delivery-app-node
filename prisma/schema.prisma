@@ -10,53 +10,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//enum role {
-// admin
-// dev 
-// tenant
-// client
-//}
+enum role {
+ ADMIN
+ DEV 
+ TENANT
+ CLIENT
+}
 
-model User { // Tabela
-  // Colunas da tabela
+model User { 
   id String @id @default(uuid())
   email String @unique
   name String  
   password String
-  role String
+  role role
 
   profile Profile?
+  tenant Tenant?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  @@map("users") // Renomeia a tabela
+  @@map("users") 
 }
 
-model Profile {//Tabela
-  //Colunas da tabela
+model Profile {
   id String @id @default(uuid())
   phone String 
 
   userId String? @unique
   user User? @relation(fields: [userId], references: [id])
 
-  @@map("profilers") // Renomeia a tabela
+  @@map("profilers") 
 }
 
-model Tenant {// Tabela
-  // Colunas da tabela
+model Tenant {
   id String @id @default(uuid())
   slug String @unique
   name String
+  city String
   primaryColor String
   phone String
 
-  @@map("tenants") // Renomeia a tabela
+  userId String? @unique
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("tenants") 
 }
 
-model Product {// Tabela
-  // Colunas da tabela
+model Product {
 id String @id @default(uuid())
 Slug String @unique
 Name String
@@ -65,11 +66,10 @@ Description String
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
 
-@@map("products") // Renomeia a tabela
+@@map("products") 
 }
 
-model Category {// Tabela
-  // Colunas da tabela
+model Category {
 id String @id @default(uuid())
 name String
 created_at DateTime @default(now())
@@ -78,8 +78,7 @@ updated_at DateTime @updatedAt
 @@map("categorys") //Renomeia a tabela
 }
 
-model Adress { // Tabela
-  // Colunas da tabela
+model Adress { 
 id String @id @default(uuid())
 cep String
 city String
@@ -93,8 +92,7 @@ updated_at DateTime @updatedAt
 @@map("adresses") //Renomeia a tabela  
 }
 
-model image {// Tabela
-  // Colunas da tabela
+model image {
 id String @id @default(uuid())
 name String
 url String

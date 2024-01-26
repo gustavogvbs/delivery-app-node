@@ -1,5 +1,5 @@
 import { CreateProfileDTO } from "@modules/profile/dtos/CreateProfileDTO";
-import { UserResponseDTO } from "@modules/profile/dtos/ResponseUserDTO";
+import { UserResponseProfileDTO } from "@modules/profile/dtos/ResponseUserProfileDTO";
 
 import { AppError } from "@errors/AppErro";
 import { prisma } from "@prismasrc/client";
@@ -14,7 +14,7 @@ export class CreateProfileUseCase {
     password,
     phone,
     role,
-  }: CreateProfileDTO): Promise<UserResponseDTO> {
+  }: CreateProfileDTO): Promise<UserResponseProfileDTO> {
     const userAlredyExists = await prisma.user.findUnique({
       where: {
         email,

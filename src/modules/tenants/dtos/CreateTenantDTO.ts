@@ -1,6 +1,16 @@
+import { USERS_ROLES as typerole } from "@utils/RoleEnum";
+
 export interface CreateTenantDTO {
-  slug: string;
-  name: string;
-  primaryColor: string;
-  phone: string;
+  user: {
+    name: string;
+    email: string;
+    password: string;
+    role: typerole.ADMIN | typerole.DEV | typerole.TENANT | typerole.CLIENT;
+  };
+  tenant: {
+    name: string;
+    primaryColor: string;
+    phone: string;
+    city: string;
+  };
 }

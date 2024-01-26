@@ -1,10 +1,13 @@
+-- CreateEnum
+CREATE TYPE "role" AS ENUM ('ADMIN', 'DEV', 'TENANT', 'CLIENT');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "role" TEXT NOT NULL,
+    "role" "role" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -25,8 +28,10 @@ CREATE TABLE "tenants" (
     "id" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
     "primaryColor" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
+    "userId" TEXT,
 
     CONSTRAINT "tenants_pkey" PRIMARY KEY ("id")
 );
@@ -91,7 +96,13 @@ CREATE UNIQUE INDEX "profilers_userId_key" ON "profilers"("userId");
 CREATE UNIQUE INDEX "tenants_slug_key" ON "tenants"("slug");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "tenants_userId_key" ON "tenants"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "products_Slug_key" ON "products"("Slug");
 
 -- AddForeignKey
 ALTER TABLE "profilers" ADD CONSTRAINT "profilers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tenants" ADD CONSTRAINT "tenants_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
