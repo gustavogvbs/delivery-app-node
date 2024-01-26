@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -24,6 +24,9 @@ model User { // Tabela
   name String  
   password String
   role String
+
+  profile Profile?
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -34,6 +37,9 @@ model Profile {//Tabela
   //Colunas da tabela
   id String @id @default(uuid())
   phone String 
+
+  userId String? @unique
+  user User? @relation(fields: [userId], references: [id])
 
   @@map("profilers") // Renomeia a tabela
 }
