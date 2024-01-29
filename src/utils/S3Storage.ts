@@ -20,8 +20,6 @@ export class S3Storage {
       },
       region: env.AWS_S3_REGION,
     });
-
-    console.log(env);
   }
 
   async saveFile(fileName: string): Promise<void> {

@@ -1,25 +1,28 @@
-import { User } from "@prisma/client";
-
 import { AppError } from "@errors/AppErro";
-import { prisma } from "@prismasrc/client";
 
+import { IUserType } from "@type/userResponseType";
+
+import { IUserRepository } from "../../../../../repositories/IUserRepository";
 import { FindUserDTO } from "../../dtos/FindUserDTO";
 
 export class FindUserUseCase {
-  async execute({ id }: FindUserDTO): Promise<User> {
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        profile: true,
-      },
-    });
+  constructor(private userRepository: IUserRepository) {}
+
+  async execute({ id }: FindUserDTO): Promise<IUserType> {
+    const user = await this.userRepository.findById(id);
 
     if (!user) {
       throw new AppError("User already exists");
     }
 
-    return user;
+    const result = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    };
+
+    return result;
   }
 }

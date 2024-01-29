@@ -1,27 +1,49 @@
-import { AppError } from "@errors/AppErro";
-import { prisma } from "@prismasrc/client";
-import { JwtApi } from "@utils/JwtApi";
+import bcrypt from "bcrypt";
 
-import { UserResponseDTO } from "../../../profile/dtos/ResponseUserDTO";
+import { AppError } from "@errors/AppErro";
+import { IJwtApi } from "@utils/JwtApi";
+
+import { UserResponseType } from "@type/userResponseType";
+
+import { IUserRepository } from "../../../../../repositories/IUserRepository";
 import { LoginUserDTO } from "../../dtos/LoginUserDTO";
 
-const useJwtApi = new JwtApi();
-
 export class LoginUserUseCase {
-  async execute({ email, password }: LoginUserDTO): Promise<UserResponseDTO> {
-    const userAlredyExists = await prisma.user.findUnique({
-      where: {
-        email,
-        password,
-      },
-    });
+  constructor(
+    private userRepository: IUserRepository,
+    private jwtApi: IJwtApi,
+  ) {}
 
-    if (!userAlredyExists) {
-      throw new AppError("User already exists");
+  async execute({ email, password }: LoginUserDTO): Promise<UserResponseType> {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      throw new AppError("Email not found");
     }
 
-    const token = useJwtApi.generate(userAlredyExists);
+    const checkPassword = bcrypt.compare(password, user.password);
 
-    return { user: userAlredyExists, token };
+    if (!checkPassword) {
+      throw new AppError("Senha incorreta!");
+    }
+
+    const token = this.jwtApi.generate({
+      id: user.id,
+      name: user.name,
+      role: user.role,
+    });
+
+    const result = {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        created_at: user.created_at,
+        updated_at: user.updated_at,
+      },
+    };
+
+    return result;
   }
 }
