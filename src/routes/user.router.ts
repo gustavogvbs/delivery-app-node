@@ -1,12 +1,9 @@
 import { Router } from "express";
 
-import { FindUserController } from "@modules/user/useCases/findUser/FindUserController";
-import { LoginUserController } from "@modules/user/useCases/loginUser/LoginUserController";
+import { findUserController } from "@modules/user/useCases/findUser";
+import { loginUserController } from "@modules/user/useCases/loginUser";
 
 import { auth } from "@middleware/auth";
-
-const loginUserController = new LoginUserController();
-const findUserController = new FindUserController();
 
 const useAuth = new auth();
 

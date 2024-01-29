@@ -2,9 +2,13 @@ import jwt from "jsonwebtoken";
 
 import { env } from "@src/env";
 
-import { JWTTypes } from "@type/jwt-types";
+import { JWTTypes } from "@type/jwtType";
 
-export class JwtApi {
+export interface IJwtApi {
+  generate({ id, name, role }: JWTTypes): string;
+}
+
+export class JwtApi implements IJwtApi {
   generate({ id, name, role }: JWTTypes) {
     const token = jwt.sign(
       {

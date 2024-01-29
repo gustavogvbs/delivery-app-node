@@ -1,9 +1,10 @@
 import { CreateProfileDTO } from "@modules/profile/dtos/CreateProfileDTO";
-import { UserResponseProfileDTO } from "@modules/profile/dtos/ResponseUserProfileDTO";
 
 import { AppError } from "@errors/AppErro";
 import { prisma } from "@prismasrc/client";
 import { JwtApi } from "@utils/JwtApi";
+
+import { UserResponseType } from "@type/userResponseType";
 
 const useJwtApi = new JwtApi();
 
@@ -14,7 +15,7 @@ export class CreateProfileUseCase {
     password,
     phone,
     role,
-  }: CreateProfileDTO): Promise<UserResponseProfileDTO> {
+  }: CreateProfileDTO): Promise<UserResponseType> {
     const userAlredyExists = await prisma.user.findUnique({
       where: {
         email,
