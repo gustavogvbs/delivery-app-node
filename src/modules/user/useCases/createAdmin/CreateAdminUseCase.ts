@@ -1,31 +1,35 @@
 import bcrypt from "bcrypt";
 
+import { CreateUserDTO } from "@modules/user/dtos/CreateUserDTO";
+
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
 
 import { UserResponseType } from "@type/userResponseType";
 
 import { IUserRepository } from "../../../../../repositories/IUserRepository";
-import { LoginUserDTO } from "../../dtos/LoginUserDTO";
 
-export class LoginUserUseCase {
+export class CreateAdminUseCase {
   constructor(
     private userRepository: IUserRepository,
     private jwtApi: IJwtApi,
   ) {}
 
-  async execute({ email, password }: LoginUserDTO): Promise<UserResponseType> {
-    const user = await this.userRepository.findByEmail(email);
+  async execute(data: CreateUserDTO): Promise<UserResponseType> {
+    const userAlreadyExists = await this.userRepository.findByEmail(data.email);
 
-    if (!user) {
-      throw new AppError("Email not found");
+    if (!userAlreadyExists) {
+      throw new AppError("User already exists");
     }
 
-    const checkPassword = bcrypt.compare(password, user.password);
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(data.password, salt);
 
-    if (!checkPassword) {
-      throw new AppError("Senha incorreta!");
-    }
+    const user = await this.userRepository.createUser({
+      ...data,
+      role: "ADMIN",
+      password: passwordHash,
+    });
 
     const token = this.jwtApi.generate({
       id: user.id,

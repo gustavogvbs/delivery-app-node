@@ -5,7 +5,7 @@ import { env } from "@src/env";
 
 import { AppError } from "@errors/AppErro";
 
-import { JWTZod } from "@type/jwt-types";
+import { JWTZod } from "@type/jwtType";
 
 export class auth {
   private(req: Request, res: Response, next: NextFunction) {

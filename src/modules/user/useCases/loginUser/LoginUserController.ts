@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 
+import { AppError } from "@errors/AppErro";
+
 import { LoginUserUseCase } from "./LoginUserUseCase";
 
 export class LoginUserController {
+  constructor(private loginUserUseCase: LoginUserUseCase) {}
+
   async handle(req: Request, res: Response) {
     const { email, password } = req.body;
 
-    const loginUserUseCase = new LoginUserUseCase();
-
-    const result = await loginUserUseCase.execute({ email, password });
+    if (!email || !password) {
+      throw new AppError("Email ou senha não informado");
+    }
+    const result = await this.loginUserUseCase.execute({ email, password });
 
     return res.status(201).json(result);
   }
