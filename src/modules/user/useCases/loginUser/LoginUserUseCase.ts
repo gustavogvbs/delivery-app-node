@@ -3,9 +3,6 @@ import bcrypt from "bcrypt";
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
 
-
-import { LoginUserDTO } from "../../dtos/LoginUserDTO";
-
 import { UserResponseType } from "@type/userResponseType";
 
 import { IUserRepository } from "../../../../../repositories/IUserRepository";
