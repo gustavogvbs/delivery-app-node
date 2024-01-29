@@ -4,7 +4,7 @@ import path from "path";
 
 const tmpFolder = path.resolve(__dirname, "..", "..", "tmp");
 
-export default {
+export const multerConfig = {
   directory: tmpFolder,
   storage: multer.diskStorage({
     destination: tmpFolder,
@@ -16,3 +16,5 @@ export default {
     },
   }),
 };
+
+export const useUpload = multer(multerConfig);

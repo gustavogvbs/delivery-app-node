@@ -1,63 +1,50 @@
+import bcrypt from "bcrypt";
+
 import { CreateProfileDTO } from "@modules/profile/dtos/CreateProfileDTO";
+import { IUserRepository } from "@repositories/IUserRepository";
 
 import { AppError } from "@errors/AppErro";
-import { prisma } from "@prismasrc/client";
-import { JwtApi } from "@utils/JwtApi";
+import { IJwtApi } from "@utils/JwtApi";
 
 import { UserResponseType } from "@type/userResponseType";
 
-const useJwtApi = new JwtApi();
-
 export class CreateProfileUseCase {
-  async execute({
-    name,
-    email,
-    password,
-    phone,
-    role,
-  }: CreateProfileDTO): Promise<UserResponseType> {
-    const userAlredyExists = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+  constructor(
+    private userRepository: IUserRepository,
+    private jwtApi: IJwtApi,
+  ) {}
+  async execute(data: CreateProfileDTO): Promise<UserResponseType> {
+    const userAlredyExists = await this.userRepository.findByEmail(data.email);
 
     if (userAlredyExists) {
       throw new AppError("User already exists");
     }
 
-    const user = await prisma
-      .$transaction(async (tx) => {
-        const user = await tx.user.create({
-          data: {
-            name,
-            email,
-            password,
-            role,
-          },
-          include: {
-            profile: true,
-          },
-        });
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(data.password, salt);
 
-        await tx.profile.create({
-          data: {
-            phone,
-            userId: user.id,
-          },
-        });
-        return user;
-      })
-      .catch(() => {
-        throw new AppError("error 500", 500);
-      });
+    const user = await this.userRepository.createUser({
+      ...data,
+      password: passwordHash,
+    });
 
-    const token = useJwtApi.generate({
+    const token = this.jwtApi.generate({
       id: user.id,
       name: user.name,
       role: user.role,
     });
 
-    return { user, token };
+    const result = {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        created_at: user.created_at,
+        updated_at: user.updated_at,
+      },
+    };
+
+    return result;
   }
 }

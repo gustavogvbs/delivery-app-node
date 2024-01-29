@@ -5,12 +5,11 @@ import { AppError } from "@errors/AppErro";
 import { UploadImageService } from "./UploadImageService";
 
 export class AWSImageController {
+  constructor(private uploadImageService: UploadImageService) {}
   async Upload(req: Request, res: Response) {
     const { file } = req;
     if (file) {
-      const uploadImageService = new UploadImageService();
-
-      await uploadImageService.execute(file);
+      await this.uploadImageService.execute(file);
 
       return res
         .status(201)

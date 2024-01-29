@@ -1,7 +1,7 @@
 import "express-async-errors";
 import express, { response } from "express";
 
-import { routes } from "@routes/index";
+import { routes } from "@routes/index.routes";
 
 import { AppError } from "@errors/AppErro";
 

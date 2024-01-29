@@ -1,8 +1,9 @@
+import { IUserRepository } from "@repositories/IUserRepository";
+
 import { AppError } from "@errors/AppErro";
 
 import { IUserType } from "@type/userResponseType";
 
-import { IUserRepository } from "../../../../../repositories/IUserRepository";
 import { FindUserDTO } from "../../dtos/FindUserDTO";
 
 export class FindUserUseCase {

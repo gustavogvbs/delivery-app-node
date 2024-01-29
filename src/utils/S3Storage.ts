@@ -6,7 +6,7 @@ import path from "path";
 
 import { env } from "@src/env";
 
-import multerConfig from "@configs/multer.config";
+import { multerConfig } from "@configs/multer.config";
 import { AppError } from "@errors/AppErro";
 
 export class S3Storage {

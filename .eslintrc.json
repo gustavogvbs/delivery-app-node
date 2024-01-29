@@ -26,7 +26,7 @@
         "groups": [
           ["module"],
           "/^@src/env/",
-          ["/^@modules/", "/^@routes/"],
+          ["/^@modules/", "/^@repositories/", "/^@routes/"],
           [
             "/^@middleware/",
             "/^@prismasrc/",

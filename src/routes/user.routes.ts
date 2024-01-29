@@ -5,12 +5,10 @@ import { loginUserController } from "@modules/user/useCases/loginUser";
 
 import { auth } from "@middleware/auth";
 
-const useAuth = new auth();
-
 const userRouter = Router();
 
 userRouter.get("/login", loginUserController.handle);
 
-userRouter.get("/:id", useAuth.private, findUserController.handle);
+userRouter.get("/:id", auth.client, findUserController.handle);
 
 export { userRouter };

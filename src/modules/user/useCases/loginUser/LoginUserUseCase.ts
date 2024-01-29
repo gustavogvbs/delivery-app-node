@@ -1,11 +1,12 @@
 import bcrypt from "bcrypt";
 
+import { IUserRepository } from "@repositories/IUserRepository";
+
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
 
 import { UserResponseType } from "@type/userResponseType";
 
-import { IUserRepository } from "../../../../../repositories/IUserRepository";
 import { LoginUserDTO } from "../../dtos/LoginUserDTO";
 
 export class LoginUserUseCase {
