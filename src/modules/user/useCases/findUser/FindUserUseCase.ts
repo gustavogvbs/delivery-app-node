@@ -1,14 +1,13 @@
+import { IUserRepository } from "@repositories/IUserRepository";
+
 import { AppError } from "@errors/AppErro";
 
-import { IUserType } from "@type/userResponseType";
-
-import { IUserRepository } from "../../../../../repositories/IUserRepository";
-import { FindUserDTO } from "../../dtos/FindUserDTO";
+import { FindUserRequest, FindUserResponse } from "../../dtos/FindUserDTO";
 
 export class FindUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
-  async execute({ id }: FindUserDTO): Promise<IUserType> {
+  async execute({ id }: FindUserRequest): Promise<FindUserResponse> {
     const user = await this.userRepository.findById(id);
 
     if (!user) {

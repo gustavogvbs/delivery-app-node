@@ -1,13 +1,14 @@
 import bcrypt from "bcrypt";
 
-import { CreateUserDTO } from "@modules/user/dtos/CreateUserDTO";
+import {
+  CreateUserRequest,
+  CreateUserResponse,
+} from "@modules/user/dtos/CreateUserDTO";
+import { IUserRepository } from "@repositories/IUserRepository";
 
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
-
-import { UserResponseType } from "@type/userResponseType";
-
-import { IUserRepository } from "../../../../../repositories/IUserRepository";
+import { USERS_ROLES } from "@utils/RoleEnum";
 
 export class CreateAdminUseCase {
   constructor(
@@ -15,19 +16,21 @@ export class CreateAdminUseCase {
     private jwtApi: IJwtApi,
   ) {}
 
-  async execute(data: CreateUserDTO): Promise<UserResponseType> {
+  async execute(data: CreateUserRequest): Promise<CreateUserResponse> {
     const userAlreadyExists = await this.userRepository.findByEmail(data.email);
+    const adminAlreadExists = await this.userRepository.findByRole(
+      USERS_ROLES.ADMIN,
+    );
 
-    if (!userAlreadyExists) {
-      throw new AppError("User already exists");
-    }
+    if (!adminAlreadExists) throw new AppError("Admin alread exists");
+    if (!userAlreadyExists) throw new AppError("User already exists");
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(data.password, salt);
 
     const user = await this.userRepository.createUser({
       ...data,
-      role: "ADMIN",
+      role: USERS_ROLES.ADMIN,
       password: passwordHash,
     });
 

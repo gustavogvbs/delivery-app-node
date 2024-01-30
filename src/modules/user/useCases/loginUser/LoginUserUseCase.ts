@@ -1,12 +1,11 @@
 import bcrypt from "bcrypt";
 
+import { IUserRepository } from "@repositories/IUserRepository";
+
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
 
-import { UserResponseType } from "@type/userResponseType";
-
-import { IUserRepository } from "../../../../../repositories/IUserRepository";
-import { LoginUserDTO } from "../../dtos/LoginUserDTO";
+import { LoginUserRequest, LoginUserResponse } from "../../dtos/LoginUserDTO";
 
 export class LoginUserUseCase {
   constructor(
@@ -14,7 +13,10 @@ export class LoginUserUseCase {
     private jwtApi: IJwtApi,
   ) {}
 
-  async execute({ email, password }: LoginUserDTO): Promise<UserResponseType> {
+  async execute({
+    email,
+    password,
+  }: LoginUserRequest): Promise<LoginUserResponse> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {

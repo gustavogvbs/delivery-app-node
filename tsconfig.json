@@ -16,6 +16,7 @@
       "@services/*": ["services/*"],
       "@type/*": ["types/*"],
       "@utils/*": ["utils/*"],
+      "@repositories/*": ["repositories/*"],
       "@src/*": ["*"],
     },
   },

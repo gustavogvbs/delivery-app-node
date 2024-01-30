@@ -1,6 +1,7 @@
+import { PrismaUserRepository } from "@repositories/implementations/PrismaUserRepository";
+
 import { JwtApi } from "@utils/JwtApi";
 
-import { PrismaUserRepository } from "../../../../../repositories/implementations/PrismaUserRepository";
 import { LoginUserController } from "./LoginUserController";
 import { LoginUserUseCase } from "./LoginUserUseCase";
 

@@ -1,6 +1,6 @@
 import { USERS_ROLES as typerole } from "@utils/RoleEnum";
 
-export interface CreateTenantDTO {
+export interface CreateTenantRequest {
   user: {
     name: string;
     email: string;
@@ -12,5 +12,16 @@ export interface CreateTenantDTO {
     primaryColor: string;
     phone: string;
     city: string;
+  };
+}
+
+export interface CreateTenantResponse {
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    updated_at: Date;
+    created_at: Date;
   };
 }
