@@ -1,19 +1,20 @@
 import bcrypt from "bcrypt";
 
-import { CreateProfileDTO } from "@modules/profile/dtos/CreateProfileDTO";
+import {
+  CreateProfileRequest,
+  CreateProfileResponse,
+} from "@modules/profile/dtos/CreateProfileDTO";
 import { IUserRepository } from "@repositories/IUserRepository";
 
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
-
-import { UserResponseType } from "@type/userResponseType";
 
 export class CreateProfileUseCase {
   constructor(
     private userRepository: IUserRepository,
     private jwtApi: IJwtApi,
   ) {}
-  async execute(data: CreateProfileDTO): Promise<UserResponseType> {
+  async execute(data: CreateProfileRequest): Promise<CreateProfileResponse> {
     const userAlredyExists = await this.userRepository.findByEmail(data.email);
 
     if (userAlredyExists) {

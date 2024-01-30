@@ -7,9 +7,10 @@ import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
 import { SlugGenereted } from "@utils/SlugGenereted";
 
-import { UserResponseType } from "@type/userResponseType";
-
-import { CreateTenantDTO } from "../../dtos/CreateTenantDTO";
+import {
+  CreateTenantRequest,
+  CreateTenantResponse,
+} from "../../dtos/CreateTenantDTO";
 
 export class CreateTenantUseCase {
   constructor(
@@ -17,7 +18,7 @@ export class CreateTenantUseCase {
     private tenantRepository: ITenantRepository,
     private jwtApi: IJwtApi,
   ) {}
-  async execute(data: CreateTenantDTO): Promise<UserResponseType> {
+  async execute(data: CreateTenantRequest): Promise<CreateTenantResponse> {
     const slug = SlugGenereted({
       name: data.tenant.name,
       city: data.tenant.city,

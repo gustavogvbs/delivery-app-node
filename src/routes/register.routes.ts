@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 
 import { createProfileController } from "@modules/profile/useCases/createProfile";
 import { createTenantController } from "@modules/tenants/useCases/createTenants";
@@ -8,10 +8,16 @@ import { auth } from "@middleware/auth";
 
 const registerRouter = Router();
 
-registerRouter.post("/user", createProfileController.handle);
+registerRouter.post("/user", (req: Request, res: Response) => {
+  return createProfileController.handle(req, res);
+});
 
-registerRouter.post("/admin", createAdminController.handle);
+registerRouter.post("/admin", (req: Request, res: Response) => {
+  createAdminController.handle(req, res);
+});
 
-registerRouter.post("/tenant", auth.admin, createTenantController.handle);
+registerRouter.post("/tenant", auth.admin, (req: Request, res: Response) => {
+  createTenantController.handle(req, res);
+});
 
 export { registerRouter };

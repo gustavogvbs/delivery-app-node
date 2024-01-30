@@ -1,13 +1,14 @@
 import bcrypt from "bcrypt";
 
-import { CreateUserDTO } from "@modules/user/dtos/CreateUserDTO";
+import {
+  CreateUserRequest,
+  CreateUserResponse,
+} from "@modules/user/dtos/CreateUserDTO";
 import { IUserRepository } from "@repositories/IUserRepository";
 
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
 import { USERS_ROLES } from "@utils/RoleEnum";
-
-import { UserResponseType } from "@type/userResponseType";
 
 export class CreateAdminUseCase {
   constructor(
@@ -15,7 +16,7 @@ export class CreateAdminUseCase {
     private jwtApi: IJwtApi,
   ) {}
 
-  async execute(data: CreateUserDTO): Promise<UserResponseType> {
+  async execute(data: CreateUserRequest): Promise<CreateUserResponse> {
     const userAlreadyExists = await this.userRepository.findByEmail(data.email);
     const adminAlreadExists = await this.userRepository.findByRole(
       USERS_ROLES.ADMIN,
