@@ -54,7 +54,22 @@ model Tenant {
   userId String? @unique
   user User? @relation(fields: [userId], references: [id])
 
+  category Category[]
+
   @@map("tenants") 
+}
+
+model Category {
+id String @id @default(uuid())
+name String
+slug String @unique
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+
+tenantId String @unique
+tenant Tenant @relation(fields: [tenantId], references: [id])
+
+@@map("categorys") //Renomeia a tabela
 }
 
 model Product {
@@ -69,14 +84,7 @@ updated_at DateTime @updatedAt
 @@map("products") 
 }
 
-model Category {
-id String @id @default(uuid())
-name String
-created_at DateTime @default(now())
-updated_at DateTime @updatedAt
 
-@@map("categorys") //Renomeia a tabela
-}
 
 model Adress { 
 id String @id @default(uuid())
