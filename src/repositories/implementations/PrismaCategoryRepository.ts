@@ -7,7 +7,7 @@ import {
 
 import { prisma } from "@configs/client";
 
-export class PrismaCreateCategory implements ICategoryRepository {
+export class PrismaCategoryRepository implements ICategoryRepository {
   findById(id: string): Promise<Category | null> {
     const category = prisma.category.findUnique({
       where: {

@@ -54,7 +54,8 @@ model Tenant {
   userId String? @unique
   user User? @relation(fields: [userId], references: [id])
 
-  category Category[]
+  categories Category[]
+  products Product[]
 
   @@map("tenants") 
 }
@@ -66,6 +67,8 @@ slug String @unique
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
 
+products Product[]
+
 tenantId String @unique
 tenant Tenant @relation(fields: [tenantId], references: [id])
 
@@ -74,12 +77,17 @@ tenant Tenant @relation(fields: [tenantId], references: [id])
 
 model Product {
 id String @id @default(uuid())
-Slug String @unique
-Name String
+slug String
+name String
 price Float
-Description String
+description String
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
+
+tenantId String @unique
+tenant Tenant @relation(fields: [tenantId], references: [id])
+categoryId String @unique
+category Category @relation(fields: [categoryId], references: [id])
 
 @@map("products") 
 }
