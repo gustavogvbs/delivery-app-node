@@ -7,7 +7,7 @@ import {
 
 import { prisma } from "@configs/client";
 
-export class PrismaCreateCategory implements ICategoryRepository {
+export class PrismaCategoryRepository implements ICategoryRepository {
   createCategory(data: ICreateCategoryData): Promise<Category> {
     const category = prisma.category.create({
       data: {
