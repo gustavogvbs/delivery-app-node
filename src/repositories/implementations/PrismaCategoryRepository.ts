@@ -19,4 +19,13 @@ export class PrismaCategoryRepository implements ICategoryRepository {
 
     return category;
   }
+  getAllCategories(idTenant: string): Promise<Category[]> {
+    const categories = prisma.category.findMany({
+      where: {
+        tenantId: idTenant,
+      },
+    });
+
+    return categories;
+  }
 }
