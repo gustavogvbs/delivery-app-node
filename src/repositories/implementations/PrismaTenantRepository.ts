@@ -14,4 +14,13 @@ export class PrismaTenantRepository implements ITenantRepository {
 
     return tenant;
   }
+  async findById(slug: string): Promise<Tenant | null> {
+    const tenant = await prisma.tenant.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    return tenant;
+  }
 }
