@@ -63,6 +63,34 @@ class authAccess {
 
     next();
   }
+
+  tenant(req: Request, res: Response, next: NextFunction): void {
+    let seccess = false;
+    const { authorization } = req.headers;
+
+    if (authorization) {
+      const [authType, token] = authorization.split(" ");
+      if (authType === "Bearer") {
+        try {
+          const decoded = JWTZod.safeParse(
+            jwt.verify(token, env.JWT_SECRET_KEY),
+          );
+
+          if (decoded.success && decoded.data.role === USERS_ROLES.TENANT) {
+            seccess = true;
+          }
+        } catch (e) {
+          console.error("error");
+        }
+      }
+    }
+
+    if (!seccess) {
+      throw new AppError("403 Forbidem", 403);
+    }
+
+    next();
+  }
 }
 
 const auth = new authAccess();

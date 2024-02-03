@@ -8,5 +8,6 @@ export interface ICreateCategoryData {
 
 export interface ICategoryRepository {
   createCategory(data: ICreateCategoryData): Promise<Category>;
+  getAllCategories(idTenant: string): Promise<Category[]>;
   findById(id: string): Promise<Category | null>;
 }
