@@ -8,8 +8,8 @@ import {
 import { prisma } from "@configs/client";
 
 export class PrismaCategoryRepository implements ICategoryRepository {
-  findById(id: string): Promise<Category | null> {
-    const category = prisma.category.findUnique({
+  async findById(id: string): Promise<Category | null> {
+    const category = await prisma.category.findUnique({
       where: {
         id,
       },
@@ -17,8 +17,8 @@ export class PrismaCategoryRepository implements ICategoryRepository {
 
     return category;
   }
-  createCategory(data: ICreateCategoryData): Promise<Category> {
-    const category = prisma.category.create({
+  async createCategory(data: ICreateCategoryData): Promise<Category> {
+    const category = await prisma.category.create({
       data: {
         name: data.name,
         slug: data.slug,
@@ -28,10 +28,10 @@ export class PrismaCategoryRepository implements ICategoryRepository {
 
     return category;
   }
-  getAllCategories(idTenant: string): Promise<Category[]> {
-    const categories = prisma.category.findMany({
+  async getAllCategories(tenantId: string): Promise<Category[]> {
+    const categories = await prisma.category.findMany({
       where: {
-        tenantId: idTenant,
+        tenantId: tenantId,
       },
     });
 

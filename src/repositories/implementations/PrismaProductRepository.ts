@@ -8,8 +8,8 @@ import {
 import { prisma } from "@configs/client";
 
 export class PrismaProductRepository implements IProductRepository {
-  createProduct(data: ICreateProductData): Promise<Product> {
-    const product = prisma.product.create({
+  async createProduct(data: ICreateProductData): Promise<Product> {
+    const product = await prisma.product.create({
       data: {
         slug: data.slug,
         name: data.name,
@@ -22,10 +22,18 @@ export class PrismaProductRepository implements IProductRepository {
 
     return product;
   }
-  getBySlug(slug: string): Promise<Product | null> {
-    const product = prisma.product.findUnique({
+  async getBySlug(slug: string): Promise<Product | null> {
+    const product = await prisma.product.findUnique({
       where: {
         slug,
+      },
+    });
+    return product;
+  }
+  async getAllProducts(tenantId: string): Promise<Product[]> {
+    const product = await prisma.product.findMany({
+      where: {
+        tenantId,
       },
     });
     return product;

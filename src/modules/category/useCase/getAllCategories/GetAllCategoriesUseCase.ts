@@ -12,7 +12,5 @@ export class GetAllCategoriesUseCase {
       await this.categoryRepository.getAllCategories(idTenant);
 
     return getAllCategories;
-    // Pegar todas as categorias referente aquele tenant
-    // Retornar a lista de categorias
   }
 }

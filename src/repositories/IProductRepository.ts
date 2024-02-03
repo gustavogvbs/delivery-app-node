@@ -12,4 +12,5 @@ export interface ICreateProductData {
 export interface IProductRepository {
   createProduct(data: ICreateProductData): Promise<Product>;
   getBySlug(slug: string): Promise<Product | null>;
+  getAllProducts(tenantId: string): Promise<Product[]>;
 }

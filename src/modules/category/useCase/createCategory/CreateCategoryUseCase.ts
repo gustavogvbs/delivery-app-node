@@ -14,7 +14,7 @@ export class CreateCategoryUseCase {
   ) {}
   async execute(data: CreateCategoryRequest): Promise<Category> {
     const tenantAlredyExists = await this.tenantRepository.findById(
-      data.idTenant,
+      data.tenantId,
     );
 
     if (!tenantAlredyExists) {
@@ -26,7 +26,7 @@ export class CreateCategoryUseCase {
     });
     const category = await this.categoryRepository.createCategory({
       name: data.name,
-      tenantId: data.idTenant,
+      tenantId: data.tenantId,
       slug,
     });
     return category;

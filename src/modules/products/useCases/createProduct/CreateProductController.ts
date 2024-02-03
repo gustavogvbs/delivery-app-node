@@ -14,8 +14,8 @@ export class CreateProductController {
       !data.price ||
       !data.name ||
       !data.description ||
-      !data.idCategory ||
-      !data.idTenant
+      !data.categoryId ||
+      !data.tenantId
     )
       throw new AppError("Propriedades invalidas");
 

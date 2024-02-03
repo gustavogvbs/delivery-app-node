@@ -1,4 +1,4 @@
 export interface CreateCategoryRequest {
   name: string;
-  idTenant: string;
+  tenantId: string;
 }
