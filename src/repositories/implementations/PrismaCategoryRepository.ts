@@ -8,6 +8,15 @@ import {
 import { prisma } from "@configs/client";
 
 export class PrismaCategoryRepository implements ICategoryRepository {
+  findById(id: string): Promise<Category | null> {
+    const category = prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return category;
+  }
   createCategory(data: ICreateCategoryData): Promise<Category> {
     const category = prisma.category.create({
       data: {
