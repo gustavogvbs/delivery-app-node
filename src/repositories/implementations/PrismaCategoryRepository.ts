@@ -46,4 +46,16 @@ export class PrismaCategoryRepository implements ICategoryRepository {
 
     return categories;
   }
+
+  async updateCategory(slug: string, name: string): Promise<Category> {
+    const category = await prisma.category.update({
+      where: {
+        slug,
+      },
+      data: {
+        name,
+      },
+    });
+    return category;
+  }
 }
