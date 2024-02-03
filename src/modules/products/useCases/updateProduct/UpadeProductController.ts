@@ -12,7 +12,7 @@ export class UpdateProductController {
     const { slug } = req.params;
 
     if (!name || !description || !categoryId || !price || !slug)
-      throw new AppError("Paramentros não encontrados");
+      throw new AppError("Paramentros não encontrados", 404);
 
     const result = await this.updateProductUseCase.execute({
       name,
@@ -22,6 +22,6 @@ export class UpdateProductController {
       price,
     });
 
-    return res.status(201).json(result);
+    return res.status(204).json(result);
   }
 }

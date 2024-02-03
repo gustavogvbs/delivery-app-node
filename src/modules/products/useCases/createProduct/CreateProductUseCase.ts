@@ -22,9 +22,9 @@ export class CreateProductUseCase {
     );
 
     if (!categoryAlreadExist || !tenantAlreadExist)
-      throw new AppError("Categoria ou Estabelecimento não existe");
+      throw new AppError("Categoria ou Estabelecimento não existe", 400);
     if (categoryAlreadExist.tenantId !== tenantAlreadExist.id)
-      throw new AppError("Categoria não coincide com o Estabelecimento");
+      throw new AppError("Categoria não coincide com o Estabelecimento", 400);
 
     const slug = SlugGenereted({
       name: data.name,
@@ -32,7 +32,7 @@ export class CreateProductUseCase {
     });
 
     const productAlreadExists = await this.productRepository.getBySlug(slug);
-    if (productAlreadExists) throw new AppError("Slug Ja existe");
+    if (productAlreadExists) throw new AppError("Slug Ja existe", 400);
 
     const product = await this.productRepository.createProduct({
       ...data,

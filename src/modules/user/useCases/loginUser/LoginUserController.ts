@@ -11,10 +11,10 @@ export class LoginUserController {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      throw new AppError("Email ou senha não informado");
+      throw new AppError("Email ou senha não informado", 400);
     }
     const result = await this.loginUserUseCase.execute({ email, password });
 
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   }
 }

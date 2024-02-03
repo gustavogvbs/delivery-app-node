@@ -11,7 +11,7 @@ export class FindUserUseCase {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      throw new AppError("User already exists");
+      throw new AppError("Usuário não encontrado", 404);
     }
 
     const result = {

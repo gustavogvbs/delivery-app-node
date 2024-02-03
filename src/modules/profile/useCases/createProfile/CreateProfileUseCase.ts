@@ -18,7 +18,7 @@ export class CreateProfileUseCase {
     const userAlredyExists = await this.userRepository.findByEmail(data.email);
 
     if (userAlredyExists) {
-      throw new AppError("User already exists");
+      throw new AppError("O Usuário ja existe", 404);
     }
 
     const salt = await bcrypt.genSalt(12);
