@@ -7,12 +7,12 @@ import { CreateCategoryUseCase } from "./CreateCategoryUseCase";
 export class CreateCategoryController {
   constructor(private createCategoryUseCase: CreateCategoryUseCase) {}
   async handle(req: Request, res: Response) {
-    const { idTenant, name } = req.body;
-    if (!idTenant || !name) {
-      throw new AppError("Propriedades invalidas", 500);
+    const { tenantId, name } = req.body;
+    if (!tenantId || !name) {
+      throw new AppError("Propriedades invalidas", 404);
     }
     const result = await this.createCategoryUseCase.execute({
-      idTenant,
+      tenantId,
       name,
     });
     return res.status(201).json(result);

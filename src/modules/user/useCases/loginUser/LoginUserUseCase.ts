@@ -20,13 +20,13 @@ export class LoginUserUseCase {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError("Email not found");
+      throw new AppError("Email não registrado", 404);
     }
 
     const checkPassword = bcrypt.compare(password, user.password);
 
     if (!checkPassword) {
-      throw new AppError("Senha incorreta!");
+      throw new AppError("Senha incorreta!", 400);
     }
 
     const token = this.jwtApi.generate({

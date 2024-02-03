@@ -17,7 +17,7 @@ export class CreateProductController {
       !data.categoryId ||
       !data.tenantId
     )
-      throw new AppError("Propriedades invalidas");
+      throw new AppError("Propriedades não encontrada", 404);
 
     const result = await this.createProductUseCase.execute(data);
 

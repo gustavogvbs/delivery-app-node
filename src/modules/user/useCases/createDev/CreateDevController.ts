@@ -10,7 +10,7 @@ export class CreateDevController {
     const { name, email, password, phone } = req.body;
 
     if (!name || !email || !password || !phone) {
-      throw new AppError("Propriedades Invalidas", 500);
+      throw new AppError("Propriedades não encontrada", 404);
     }
     const result = await this.createDevUseCase.execute({
       name,

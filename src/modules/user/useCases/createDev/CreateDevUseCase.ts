@@ -19,7 +19,7 @@ export class CreateDevUseCase {
     const userAlredyExists = await this.userRepository.findByEmail(data.email);
 
     if (userAlredyExists) {
-      throw new AppError("User already exists");
+      throw new AppError("Email já registrado.", 400);
     }
 
     const salt = await bcrypt.genSalt(12);

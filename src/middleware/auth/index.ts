@@ -22,7 +22,7 @@ class authAccess {
           );
 
           if (decoded.success && decoded.data.role === USERS_ROLES.CLIENT) {
-            seccess = true;
+            seccess = decoded.success;
           }
         } catch (e) {
           console.error("error");
@@ -49,7 +49,7 @@ class authAccess {
           );
 
           if (decoded.success && decoded.data.role === USERS_ROLES.ADMIN) {
-            seccess = true;
+            seccess = decoded.success;
           }
         } catch (e) {
           console.error("error");
@@ -77,7 +77,7 @@ class authAccess {
           );
 
           if (decoded.success && decoded.data.role === USERS_ROLES.TENANT) {
-            seccess = true;
+            seccess = decoded.success;
           }
         } catch (e) {
           console.error("error");

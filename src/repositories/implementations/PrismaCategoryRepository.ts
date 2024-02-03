@@ -17,6 +17,15 @@ export class PrismaCategoryRepository implements ICategoryRepository {
 
     return category;
   }
+  async findBySlug(slug: string): Promise<Category | null> {
+    const category = await prisma.category.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    return category;
+  }
   async createCategory(data: ICreateCategoryData): Promise<Category> {
     const category = await prisma.category.create({
       data: {
