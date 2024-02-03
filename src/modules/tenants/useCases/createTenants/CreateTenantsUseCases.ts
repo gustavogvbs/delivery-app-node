@@ -21,15 +21,15 @@ export class CreateTenantUseCase {
   async execute(data: CreateTenantRequest): Promise<CreateTenantResponse> {
     const slug = SlugGenereted({
       name: data.tenant.name,
-      city: data.tenant.city,
+      prefix: data.tenant.city,
     });
 
     const tenantAlreadyExists = await this.tenantRepository.findBySlug(slug);
     const userAlreadyExists = await this.userRepository.findByEmail(
       data.user.email,
     );
-    if (tenantAlreadyExists) throw new AppError("Slug already registered");
-    if (userAlreadyExists) throw new AppError("E-mail already registered");
+    if (tenantAlreadyExists) throw new AppError("Slug ja foi registrado", 400);
+    if (userAlreadyExists) throw new AppError("E-mail ja foi registered", 400);
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(data.user.password, salt);

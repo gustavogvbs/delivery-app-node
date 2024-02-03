@@ -10,10 +10,10 @@ export class GetProductController {
   async handle(req: Request, res: Response) {
     const { slug } = req.params;
 
-    if (!slug) throw new AppError("Paramentro não encontrado");
+    if (!slug) throw new AppError("Propriedades não encontrada", 404);
 
     const result = await this.getProductUseCase.execute({ slug });
 
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   }
 }

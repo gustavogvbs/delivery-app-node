@@ -9,11 +9,11 @@ export class GetAllCategoriesController {
   async handle(req: Request, res: Response) {
     const { idTenant } = req.body;
     if (!idTenant) {
-      throw new AppError("Propriedades invalidas", 500);
+      throw new AppError("Propriedades não encontradas", 404);
     }
     const result = await this.getAllCategoriesUseCase.execute({
       idTenant,
     });
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   }
 }

@@ -18,12 +18,16 @@ export class CreateCategoryUseCase {
     );
 
     if (!tenantAlredyExists) {
-      throw new AppError("Category alredy exists");
+      throw new AppError("Estabelecimento não encontrado", 400);
     }
     const slug = SlugGenereted({
       name: data.name,
       prefix: tenantAlredyExists.slug,
     });
+    const categoryAlreadExist = await this.categoryRepository.findBySlug(slug);
+    if (categoryAlreadExist)
+      throw new AppError("O slug da categoria ja foi registrado", 400);
+
     const category = await this.categoryRepository.createCategory({
       name: data.name,
       tenantId: data.tenantId,

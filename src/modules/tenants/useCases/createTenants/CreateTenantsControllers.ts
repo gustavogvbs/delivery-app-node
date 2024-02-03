@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+import { AppError } from "@errors/AppErro";
 import { USERS_ROLES } from "@utils/RoleEnum";
 
 import { CreateTenantUseCase } from "./CreateTenantsUseCases";
@@ -9,6 +10,17 @@ export class CreateTenantController {
   async handle(req: Request, res: Response) {
     const { name, email, password, tenantName, city, phone, primaryColor } =
       req.body;
+
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !tenantName ||
+      !city ||
+      !phone ||
+      !primaryColor
+    )
+      throw new AppError("Propriedades não encontrada", 404);
 
     const result = await this.createTenantUseCase.execute({
       user: {
