@@ -8,16 +8,20 @@ import { auth } from "@middleware/auth";
 
 const productRouter = Router();
 
-productRouter.post("/create", (req: Request, res: Response) => {
-  createProductController.handle(req, res);
+productRouter.post("/create", async (req: Request, res: Response) => {
+  await createProductController.handle(req, res);
 });
 
-productRouter.get("/:slug", (req: Request, res: Response) => {
-  getProductController.handle(req, res);
+productRouter.get("/:slug", async (req: Request, res: Response) => {
+  await getProductController.handle(req, res);
 });
 
-productRouter.patch("/:slug", auth.tenant, (req: Request, res: Response) => {
-  updateProductController.handle(req, res);
-});
+productRouter.patch(
+  "/:slug",
+  auth.tenant,
+  async (req: Request, res: Response) => {
+    await updateProductController.handle(req, res);
+  },
+);
 
 export { productRouter };

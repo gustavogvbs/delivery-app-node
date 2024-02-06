@@ -5,12 +5,12 @@ import { getAllProductsController } from "@modules/products/useCases/getAllProdu
 
 const getAllRoutes = Router();
 
-getAllRoutes.get("/categories", (req: Request, res: Response) => {
-  getAllCategoriesController.handle(req, res);
+getAllRoutes.get("/categories", async (req: Request, res: Response) => {
+  await getAllCategoriesController.handle(req, res);
 });
 
-getAllRoutes.get("/products", (req: Request, res: Response) => {
-  getAllProductsController.handle(req, res);
+getAllRoutes.get("/products", async (req: Request, res: Response) => {
+  await getAllProductsController.handle(req, res);
 });
 
 export { getAllRoutes };
