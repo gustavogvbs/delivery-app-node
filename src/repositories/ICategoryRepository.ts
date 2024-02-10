@@ -11,5 +11,4 @@ export interface ICategoryRepository {
   getAllCategories(idTenant: string): Promise<Category[]>;
   findById(id: string): Promise<Category | null>;
   findBySlug(slug: string): Promise<Category | null>;
-  updateCategory(slug: string, name: string): Promise<Category>;
 }

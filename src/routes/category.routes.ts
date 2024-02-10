@@ -1,7 +1,7 @@
 import { Router, Response, Request } from "express";
 
 import { createCategoryController } from "@modules/category/useCase/createCategory";
-import { updateCategoryController } from "@modules/category/useCase/updateCategory";
+import { getAllCategoriesController } from "@modules/category/useCase/getAllCategories";
 
 import { auth } from "@middleware/auth";
 
