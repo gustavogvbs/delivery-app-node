@@ -23,7 +23,7 @@ export class LoginUserUseCase {
       throw new AppError("Email não registrado", 404);
     }
 
-    const checkPassword = bcrypt.compare(password, user.password);
+    const checkPassword = await bcrypt.compare(password, user.password);
 
     if (!checkPassword) {
       throw new AppError("Senha incorreta!", 400);
