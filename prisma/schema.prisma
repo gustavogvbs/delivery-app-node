@@ -23,25 +23,17 @@ model User {
   email String @unique
   name String  
   password String
+  phone String
   role role
 
-  profile Profile?
+  adresses Adress[]
   tenant Tenant?
+  orders Order[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@map("users") 
-}
-
-model Profile {
-  id String @id @default(uuid())
-  phone String 
-
-  userId String? @unique
-  user User? @relation(fields: [userId], references: [id])
-
-  @@map("profilers") 
 }
 
 model Tenant {
@@ -51,12 +43,15 @@ model Tenant {
   city String
   primaryColor String
   phone String
+  permission Boolean
 
-  userId String? @unique
-  user User? @relation(fields: [userId], references: [id])
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+  
 
   categories Category[]
   products Product[]
+  orders Order[]
 
   @@map("tenants") 
 }
@@ -68,22 +63,23 @@ slug String @unique
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
 
-products Product[]
-
 tenantId String @unique
 tenant Tenant @relation(fields: [tenantId], references: [id])
 
-@@map("categorys") //Renomeia a tabela
+products Product[]
+
+@@map("categories") //Renomeia a tabela
 }
 
 model Product {
 id String @id @default(uuid())
-slug String
+slug String 
 name String
 price Float
 description String
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
+image Json?
 
 tenantId String @unique
 tenant Tenant @relation(fields: [tenantId], references: [id])
@@ -100,25 +96,40 @@ id String @id @default(uuid())
 cep String
 city String
 neighborhood String
-road String
+street String
 number String
-complment String @default("")
+complement String? @default("")
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
+
+userId String @unique
+user User @relation(fields: [userId], references: [id])
 
 @@map("adresses") //Renomeia a tabela  
 }
 
-model image {
+//model image {
+//id String @id @default(uuid())
+//name String
+//url String
+//content_type String
+//created_at DateTime @default(now())
+//updated_at DateTime @updatedAt
+
+//@@map("images") //Renomeia a tabela
+//}
+
+model Order {
 id String @id @default(uuid())
-name String
-url String
-content_type String
-created_at DateTime @default(now())
-updated_at DateTime @updatedAt
+orderNum Int @default(autoincrement())
+total String
+typePayment String
+produts Json[]
 
-@@map("images") //Renomeia a tabela
+tenantId String @unique
+userId String @unique
+tenant Tenant @relation(fields: [tenantId], references: [id])
+user User @relation(fields: [userId], references: [id])
+
+@@map("orders") //Renomeia a tabela
 }
-
-
-
