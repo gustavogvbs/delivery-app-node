@@ -11,6 +11,7 @@ const registerRouter = Router();
 
 registerRouter.post("/user", async (req: Request, res: Response) => {
   await createClientController.handle(req, res);
+
 });
 
 registerRouter.post("/admin", async (req: Request, res: Response) => {

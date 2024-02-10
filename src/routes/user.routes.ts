@@ -7,12 +7,12 @@ import { auth } from "@middleware/auth";
 
 const userRouter = Router();
 
-userRouter.get("/login", (req: Request, res: Response) => {
-  loginUserController.handle(req, res);
+userRouter.get("/login", async (req: Request, res: Response) => {
+  await loginUserController.handle(req, res);
 });
 
-userRouter.get("/:id", auth.client, (req: Request, res: Response) => {
-  findUserController.handle(req, res);
+userRouter.get("/:id", auth.client, async (req: Request, res: Response) => {
+  await findUserController.handle(req, res);
 });
 
 export { userRouter };
