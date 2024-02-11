@@ -1,7 +1,6 @@
 import { Router, Response, Request } from "express";
 
 import { createCategoryController } from "@modules/category/useCase/createCategory";
-import { getAllCategoriesController } from "@modules/category/useCase/getAllCategories";
 
 import { auth } from "@middleware/auth";
 
@@ -15,12 +14,12 @@ categoryRouter.post(
   },
 );
 
-categoryRouter.patch(
+/* categoryRouter.patch(
   "/:slug",
   auth.tenant,
   async (req: Request, res: Response) => {
     await updateCategoryController.handle(req, res);
   },
-);
+); */
 
 export { categoryRouter };
