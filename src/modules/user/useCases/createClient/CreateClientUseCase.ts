@@ -21,7 +21,7 @@ export class CreateClientUseCase {
     );
 
     if (clieAlredyExists) {
-      throw new AppError("Email já registrado", 404);
+      throw new AppError("Email já registrado.", 400);
     }
 
     const salt = await bcrypt.genSalt(12);

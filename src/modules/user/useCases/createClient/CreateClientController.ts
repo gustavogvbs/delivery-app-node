@@ -9,7 +9,7 @@ export class CreateClientController {
   async handle(req: Request, res: Response) {
     const { name, email, password, phone } = req.body;
 
-    if (!name || !email || password || !phone) {
+    if (!name || !email || !password || !phone) {
       throw new AppError("Propriedades não encontradas", 404);
     }
     const result = await this.createClientUseCase.execute({
