@@ -1,8 +1,8 @@
 import { Category } from "@prisma/client";
 
 export interface ICreateCategoryData {
-  name: string;
   slug: string;
+  name: string;
   tenantId: string;
 }
 

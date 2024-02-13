@@ -6,8 +6,8 @@ import { UpdateCategoryUseCase } from "./UpdateCategoryUseCase";
 export class UpdateCategoryController {
   constructor(private updateCategoryUseCase: UpdateCategoryUseCase) {}
   async handle(req: Request, res: Response) {
-    const { name } = req.body;
     const { slug } = req.params;
+    const { name } = req.body;
     if (!name || !slug) {
       throw new AppError("Propriedades não encontradas", 404);
     }

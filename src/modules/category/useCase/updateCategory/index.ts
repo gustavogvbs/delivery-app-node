@@ -8,4 +8,4 @@ const updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepository);
 const updateCategoryController = new UpdateCategoryController(
   updateCategoryUseCase,
 );
-export { updateCategoryController, UpdateCategoryUseCase };
+export { updateCategoryController, updateCategoryUseCase };
