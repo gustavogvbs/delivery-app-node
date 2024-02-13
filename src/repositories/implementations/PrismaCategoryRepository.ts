@@ -3,6 +3,7 @@ import { Category } from "@prisma/client";
 import {
   ICategoryRepository,
   ICreateCategoryData,
+  IUpdateCategoryData,
 } from "@repositories/ICategoryRepository";
 
 import { prisma } from "@configs/client";
@@ -45,5 +46,17 @@ export class PrismaCategoryRepository implements ICategoryRepository {
     });
 
     return categories;
+  }
+
+  async updateCategory({ slug, name }: IUpdateCategoryData): Promise<Category> {
+    const category = await prisma.category.update({
+      where: {
+        slug,
+      },
+      data: {
+        name,
+      },
+    });
+    return category;
   }
 }
