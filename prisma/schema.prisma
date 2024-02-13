@@ -3,21 +3,133 @@
 
 generator client {
   provider = "prisma-client-js"
+ // previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User { // Tabela
-  // Colunas da tabela
+enum role {
+ ADMIN
+ DEV 
+ TENANT
+ CLIENT
+}
+
+model User { 
   id String @id @default(uuid())
   email String @unique
-  name String
+  name String  
+  password String
+  phone String
+  role role
+
+  adresses Adress[]
+  tenant Tenant?
+  orders Order[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  @@map("users") // Renomeia a tabela
+  @@map("users") 
 }
 
+model Tenant {
+  id String @id @default(uuid())
+  slug String @unique
+  name String
+  city String
+  primaryColor String
+  phone String
+  permission Boolean @default(false)
+
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+  
+
+  categories Category[]
+  products Product[]
+  orders Order[]
+
+  @@map("tenants") 
+}
+
+model Category {
+id String @id @default(uuid())
+name String
+slug String @unique
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+
+tenantId String @unique
+tenant Tenant @relation(fields: [tenantId], references: [id])
+
+products Product[]
+
+@@map("categories") //Renomeia a tabela
+}
+
+model Product {
+id String @id @default(uuid())
+slug String 
+name String
+price Float
+description String
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+image Json?
+
+tenantId String @unique
+tenant Tenant @relation(fields: [tenantId], references: [id])
+categoryId String @unique
+category Category @relation(fields: [categoryId], references: [id])
+
+@@map("products") 
+}
+
+
+
+model Adress { 
+id String @id @default(uuid())
+cep String
+city String
+neighborhood String
+street String
+number String
+complement String? @default("")
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+
+userId String @unique
+user User @relation(fields: [userId], references: [id])
+
+@@map("adresses") //Renomeia a tabela  
+}
+
+//model image {
+//id String @id @default(uuid())
+//name String
+//url String
+//content_type String
+//created_at DateTime @default(now())
+//updated_at DateTime @updatedAt
+
+//@@map("images") //Renomeia a tabela
+//}
+
+model Order {
+id String @id @default(uuid())
+orderNum Int @default(autoincrement())
+total String
+typePayment String
+produts Json[]
+
+tenantId String @unique
+userId String @unique
+tenant Tenant @relation(fields: [tenantId], references: [id])
+user User @relation(fields: [userId], references: [id])
+
+@@map("orders") //Renomeia a tabela
+}
