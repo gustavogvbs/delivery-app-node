@@ -124,7 +124,8 @@ id String @id @default(uuid())
 orderNum Int @default(autoincrement())
 total String
 typePayment String
-produts Json[]
+products Json[]
+payBack Int
 
 tenantId String @unique
 userId String @unique
