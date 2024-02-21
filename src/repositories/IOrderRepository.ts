@@ -12,8 +12,12 @@ export interface ICreateOrderData {
 export interface IGetOrderData {
   id: string;
 }
+export interface IGetAllOrderData {
+  id: string;
+}
 
 export interface IOrderRepository {
   createOrder(data: ICreateOrderData): Promise<Order>;
   getOrder(data: IGetOrderData): Promise<Order | null>;
+  getAll(data: IGetAllOrderData): Promise<Order[]>;
 }
