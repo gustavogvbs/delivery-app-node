@@ -9,7 +9,11 @@ export interface ICreateOrderData {
   tenantId: string;
   userId: string;
 }
+export interface IGetOrderData {
+  id: string;
+}
 
 export interface IOrderRepository {
   createOrder(data: ICreateOrderData): Promise<Order>;
+  getOrder(data: IGetOrderData): Promise<Order | null>;
 }
