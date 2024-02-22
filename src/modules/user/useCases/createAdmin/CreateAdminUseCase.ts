@@ -1,3 +1,4 @@
+import { USERS_ROLES } from "@src/enums/RoleEnum";
 import bcrypt from "bcrypt";
 
 import {
@@ -8,7 +9,6 @@ import { IUserRepository } from "@repositories/IUserRepository";
 
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
-import { USERS_ROLES } from "@utils/RoleEnum";
 
 export class CreateAdminUseCase {
   constructor(

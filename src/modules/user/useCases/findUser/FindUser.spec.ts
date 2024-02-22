@@ -1,9 +1,9 @@
 import { app } from "@src/app";
+import { USERS_ROLES } from "@src/enums/RoleEnum";
 import request from "supertest";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import { AppError } from "@errors/AppErro";
-import { USERS_ROLES } from "@utils/RoleEnum";
 
 import { findUserUseCase } from ".";
 import { createClientUseCase } from "../createClient";

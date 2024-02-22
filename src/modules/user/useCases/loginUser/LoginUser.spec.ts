@@ -1,4 +1,5 @@
 import { app } from "@src/app";
+import { USERS_ROLES } from "@src/enums/RoleEnum";
 import bcrypt from "bcrypt";
 import request from "supertest";
 import { it, describe, expect, beforeAll } from "vitest";
@@ -6,7 +7,6 @@ import { it, describe, expect, beforeAll } from "vitest";
 import { PrismaUserRepository } from "@repositories/implementations/PrismaUserRepository";
 
 import { AppError } from "@errors/AppErro";
-import { USERS_ROLES } from "@utils/RoleEnum";
 
 import { loginUseruseCase } from ".";
 

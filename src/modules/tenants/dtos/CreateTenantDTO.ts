@@ -1,4 +1,4 @@
-import { USERS_ROLES as typerole } from "@utils/RoleEnum";
+import { USERS_ROLES as typerole } from "@src/enums/RoleEnum";
 
 export interface CreateTenantRequest {
   user: {

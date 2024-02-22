@@ -1,11 +1,11 @@
-import { Order } from "@prisma/client";
-import { Json } from "aws-sdk/clients/robomaker";
+import { Order, Prisma } from "@prisma/client";
+import { type PAYMENTS } from "@src/enums/PaymentEnum";
 
 export interface ICreateOrderData {
-  total: string;
-  typePayment: string;
+  total: number;
+  typePayment: PAYMENTS;
   payBack: number;
-  products: Json[];
+  products: Prisma.InputJsonValue[];
   tenantId: string;
   userId: string;
 }
