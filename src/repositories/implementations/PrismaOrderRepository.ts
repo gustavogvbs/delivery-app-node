@@ -15,6 +15,7 @@ export class PrismaOrderRepository implements IOrderRepository {
     payBack,
     tenantId,
     typePayment,
+    products,
     userId,
   }: ICreateOrderData): Promise<Order> {
     const order = await prisma.order.create({
@@ -22,6 +23,7 @@ export class PrismaOrderRepository implements IOrderRepository {
         total,
         payBack,
         typePayment,
+        products,
         tenantId,
         userId,
       },

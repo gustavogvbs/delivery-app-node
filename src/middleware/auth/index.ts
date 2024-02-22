@@ -1,10 +1,10 @@
+import { USERS_ROLES } from "@src/enums/RoleEnum";
 import { Response, Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 import { env } from "@src/env";
 
 import { AppError } from "@errors/AppErro";
-import { USERS_ROLES } from "@utils/RoleEnum";
 
 import { JWTZod } from "@type/jwtType";
 
