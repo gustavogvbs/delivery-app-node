@@ -1,4 +1,4 @@
-import { USERS_ROLES } from "@src/enums/RoleEnum";
+import { USERS_ROLES as role } from "@src/enums/RoleEnum";
 import { Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -9,17 +9,40 @@ import { AppError } from "@errors/AppErro";
 import { JWTZod } from "@type/jwtType";
 
 class authAccess {
-  execute(req: Request, next: NextFunction, role: USERS_ROLES): void {
+  execute(req: Request, next: NextFunction, layerPermission: role): void {
     const { token } = req.cookies;
+
+    let permission: string[] = [];
+
+    switch (layerPermission) {
+      case role.ADMIN:
+        permission = [role.CLIENT, role.TENANT, role.DEV, role.ADMIN];
+        break;
+      case role.DEV:
+        permission = [role.CLIENT, role.TENANT, role.DEV];
+        break;
+      case role.TENANT:
+        permission = [role.CLIENT, role.TENANT];
+        break;
+      case role.CLIENT:
+        permission = [role.CLIENT];
+        break;
+      default:
+        permission = [];
+        break;
+    }
 
     if (token && token !== "") {
       try {
         const decoded = JWTZod.safeParse(jwt.verify(token, env.JWT_SECRET_KEY));
 
-        if (decoded.success && decoded.data.role === role) {
-          next();
-        } else {
-          throw new AppError("403 Forbidem", 403);
+        if (decoded.success && decoded.data.role) {
+          const hasPermission = permission.includes(decoded.data.role);
+          if (hasPermission) {
+            next();
+          } else {
+            throw new AppError("403 Forbidem", 403);
+          }
         }
       } catch (e) {
         console.log(e);
