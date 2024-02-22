@@ -1,4 +1,5 @@
 import "express-async-errors";
+import cors from "cors";
 import express, { Request, Response } from "express";
 
 import { routes } from "@routes/index.routes";
@@ -6,6 +7,8 @@ import { routes } from "@routes/index.routes";
 import { AppError } from "@errors/AppErro";
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 

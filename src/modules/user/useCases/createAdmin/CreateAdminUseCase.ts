@@ -22,9 +22,9 @@ export class CreateAdminUseCase {
       USERS_ROLES.ADMIN,
     );
 
-    if (userAlreadyExists) throw new AppError("Email ja registrado.", 400);
     if (adminAlreadExists)
       throw new AppError("Ja existe um usuário como Admin.", 403);
+    if (userAlreadyExists) throw new AppError("Email ja registrado.", 400);
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(data.password, salt);

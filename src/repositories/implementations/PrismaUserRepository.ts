@@ -72,6 +72,9 @@ export class PrismaUserRepository implements IUserRepository {
           city: data.city,
           userId: createUser.id,
         },
+        include: {
+          orders: true,
+        },
       });
 
       return createUser;
