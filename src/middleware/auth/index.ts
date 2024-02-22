@@ -1,4 +1,5 @@
-import { Response, Request, NextFunction } from "express";
+import { USERS_ROLES } from "@src/enums/RoleEnum";
+import { Request, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 import { env } from "@src/env";
@@ -8,9 +9,8 @@ import { AppError } from "@errors/AppErro";
 import { JWTZod } from "@type/jwtType";
 
 class authAccess {
-  admin(req: Request, __: Response, next: NextFunction): void {
+  execute(req: Request, next: NextFunction, role: USERS_ROLES): void {
     const { token } = req.cookies;
-    const { role } = req.params;
 
     if (token && token !== "") {
       try {

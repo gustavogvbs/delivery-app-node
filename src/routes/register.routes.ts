@@ -1,4 +1,5 @@
-import { Router, Request, Response } from "express";
+import { USERS_ROLES as role } from "@src/enums/RoleEnum";
+import { Router, Request, Response, NextFunction } from "express";
 
 import { createTenantController } from "@modules/tenants/useCases/createTenants";
 import { createAdminController } from "@modules/user/useCases/createAdmin";
@@ -11,7 +12,6 @@ const registerRouter = Router();
 
 registerRouter.post("/user", async (req: Request, res: Response) => {
   await createClientController.handle(req, res);
-
 });
 
 registerRouter.post("/admin", async (req: Request, res: Response) => {
@@ -20,14 +20,22 @@ registerRouter.post("/admin", async (req: Request, res: Response) => {
 
 registerRouter.post(
   "/tenant",
-  auth.admin,
+  async (req: Request, __: Response, next: NextFunction) => {
+    auth.execute(req, next, role.ADMIN);
+  },
   async (req: Request, res: Response) => {
     await createTenantController.handle(req, res);
   },
 );
 
-registerRouter.post("/dev", auth.admin, async (req: Request, res: Response) => {
-  await createDevController.handle(req, res);
-});
+registerRouter.post(
+  "/dev",
+  async (req: Request, __: Response, next: NextFunction) => {
+    auth.execute(req, next, role.ADMIN);
+  },
+  async (req: Request, res: Response) => {
+    await createDevController.handle(req, res);
+  },
+);
 
 export { registerRouter };
