@@ -1,11 +1,15 @@
 import { Response, Request } from "express";
 
 import { AppError } from "@errors/AppErro";
+import { Authenticate } from "@utils/Authenticate";
 
 import { CreateAdminUseCase } from "./CreateAdminUseCase";
 
 export class CreateAdminController {
-  constructor(private createAdminUseCase: CreateAdminUseCase) {}
+  constructor(
+    private createAdminUseCase: CreateAdminUseCase,
+    private auth: Authenticate,
+  ) {}
 
   async handle(req: Request, res: Response) {
     const { name, email, password, phone } = req.body;
@@ -19,7 +23,8 @@ export class CreateAdminController {
       password,
       phone,
     });
+    this.auth.setCookies(result.token, res);
 
-    return res.status(201).json(result);
+    return res.status(201).json(result.user);
   }
 }
