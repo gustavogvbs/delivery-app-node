@@ -2,6 +2,7 @@ import { Order } from "@prisma/client";
 
 import {
   ICreateOrderData,
+  IGetAllOrderData,
   IGetOrderData,
   IOrderRepository,
 } from "@repositories/IOrderRepository";
@@ -31,6 +32,21 @@ export class PrismaOrderRepository implements IOrderRepository {
     const order = await prisma.order.findUnique({
       where: {
         id,
+      },
+    });
+    return order;
+  }
+  async getAll({ id }: IGetAllOrderData): Promise<Order[]> {
+    const order = await prisma.order.findMany({
+      where: {
+        OR: [
+          {
+            userId: id,
+          },
+          {
+            tenantId: id,
+          },
+        ],
       },
     });
     return order;
