@@ -18,7 +18,7 @@ export class JwtApi implements IJwtApi {
       },
       env.JWT_SECRET_KEY,
       {
-        expiresIn: "12h",
+        expiresIn: 60 * 60 * 24 * 7,
       },
     );
 
