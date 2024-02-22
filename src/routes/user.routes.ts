@@ -3,6 +3,7 @@ import { Router, Response, Request, NextFunction } from "express";
 
 import { findUserController } from "@modules/user/useCases/findUser";
 import { loginUserController } from "@modules/user/useCases/loginUser";
+import { logoutUserController } from "@modules/user/useCases/logoutUser";
 
 import { auth } from "@middleware/auth";
 
@@ -10,6 +11,10 @@ const userRouter = Router();
 
 userRouter.post("/login", async (req: Request, res: Response) => {
   await loginUserController.handle(req, res);
+});
+
+userRouter.get("/logout", async (req: Request, res: Response) => {
+  await logoutUserController.handle(req, res);
 });
 
 userRouter.get(
