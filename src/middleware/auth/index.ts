@@ -16,16 +16,16 @@ class authAccess {
 
     switch (layerPermission) {
       case role.ADMIN:
-        permission = [role.CLIENT, role.TENANT, role.DEV, role.ADMIN];
+        permission = [role.ADMIN];
         break;
       case role.DEV:
-        permission = [role.CLIENT, role.TENANT, role.DEV];
+        permission = [role.ADMIN, role.DEV];
         break;
       case role.TENANT:
-        permission = [role.CLIENT, role.TENANT];
+        permission = [role.ADMIN, role.DEV, role.TENANT];
         break;
       case role.CLIENT:
-        permission = [role.CLIENT];
+        permission = [role.ADMIN, role.DEV, role.TENANT, role.CLIENT];
         break;
       default:
         permission = [];
