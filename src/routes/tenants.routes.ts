@@ -1,4 +1,5 @@
-import { Router, Request, Response } from "express";
+import { USERS_ROLES as role } from "@src/enums/RoleEnum";
+import { Router, Request, Response, NextFunction } from "express";
 
 import { findTenantController } from "@modules/tenants/useCases/findTenant";
 import { updateTenantController } from "@modules/tenants/useCases/updateTenants";
@@ -9,7 +10,9 @@ const tenantRouter = Router();
 
 tenantRouter.patch(
   "/:slug",
-  auth.admin,
+  async (req: Request, __: Response, next: NextFunction) => {
+    auth.execute(req, next, role.TENANT);
+  },
   async (req: Request, res: Response) => {
     await updateTenantController.handle(req, res);
   },

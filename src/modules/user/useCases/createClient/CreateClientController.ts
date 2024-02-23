@@ -1,11 +1,15 @@
 import { Response, Request } from "express";
 
 import { AppError } from "@errors/AppErro";
+import { Authenticate } from "@utils/Authenticate";
 
 import { CreateClientUseCase } from "./CreateClientUseCase";
 
 export class CreateClientController {
-  constructor(private createClientUseCase: CreateClientUseCase) {}
+  constructor(
+    private createClientUseCase: CreateClientUseCase,
+    private auth: Authenticate,
+  ) {}
   async handle(req: Request, res: Response) {
     const { name, email, password, phone } = req.body;
 
@@ -18,6 +22,9 @@ export class CreateClientController {
       password,
       phone,
     });
-    return res.status(201).json(result);
+
+    this.auth.setCookies(result.token, res);
+
+    return res.status(200).json(result.user);
   }
 }

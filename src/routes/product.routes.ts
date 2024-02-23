@@ -1,4 +1,5 @@
-import { Router, Response, Request } from "express";
+import { USERS_ROLES as role } from "@src/enums/RoleEnum";
+import { Router, Response, Request, NextFunction } from "express";
 
 import { createProductController } from "@modules/products/useCases/createProduct";
 import { getProductController } from "@modules/products/useCases/getProduct";
@@ -18,7 +19,9 @@ productRouter.get("/:slug", async (req: Request, res: Response) => {
 
 productRouter.patch(
   "/:slug",
-  auth.tenant,
+  async (req: Request, __: Response, next: NextFunction) => {
+    auth.execute(req, next, role.TENANT);
+  },
   async (req: Request, res: Response) => {
     await updateProductController.handle(req, res);
   },
