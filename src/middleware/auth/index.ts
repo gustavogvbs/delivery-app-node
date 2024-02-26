@@ -1,16 +1,18 @@
 import { USERS_ROLES as role } from "@src/enums/RoleEnum";
 import { Request, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-
-import { env } from "@src/env";
 
 import { AppError } from "@errors/AppErro";
+import { JwtApi } from "@utils/JwtApi";
 
 import { JWTZod } from "@type/jwtType";
 
 class authAccess {
+  constructor(private jwt: JwtApi) {}
+
   execute(req: Request, next: NextFunction, layerPermission: role): void {
-    const { token } = req.cookies;
+    const data = req.cookies;
+
+    console.log(data);
 
     let permission: string[] = [];
 
@@ -32,9 +34,9 @@ class authAccess {
         break;
     }
 
-    if (token && token !== "") {
+    if (data.token && data.token !== "") {
       try {
-        const decoded = JWTZod.safeParse(jwt.verify(token, env.JWT_SECRET_KEY));
+        const decoded = JWTZod.safeParse(this.jwt.decoded(data.token));
 
         if (decoded.success && decoded.data.role) {
           const hasPermission = permission.includes(decoded.data.role);
@@ -51,6 +53,8 @@ class authAccess {
   }
 }
 
-const auth = new authAccess();
+const jwtApi = new JwtApi();
+
+const auth = new authAccess(jwtApi);
 
 export { auth };

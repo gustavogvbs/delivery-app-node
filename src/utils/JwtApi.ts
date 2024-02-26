@@ -24,4 +24,9 @@ export class JwtApi implements IJwtApi {
 
     return token;
   }
+  decoded(token: string) {
+    const decoded = jwt.sign(token, env.JWT_SECRET_KEY);
+
+    return decoded;
+  }
 }
