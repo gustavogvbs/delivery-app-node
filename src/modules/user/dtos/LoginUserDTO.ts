@@ -1,3 +1,11 @@
+export interface LoginUserData {
+  name: string;
+  email: string;
+  phone: string;
+  updated_at: Date;
+  created_at: Date;
+}
+
 export interface LoginUserRequest {
   email: string;
   password: string;
@@ -6,10 +14,9 @@ export interface LoginUserRequest {
 export interface LoginUserResponse {
   token: string;
   user: {
-    id: string;
-    name: string;
-    email: string;
-    updated_at: Date;
-    created_at: Date;
+    data: {
+      id: string;
+      attributes: LoginUserData;
+    };
   };
 }
