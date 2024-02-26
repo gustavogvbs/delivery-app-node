@@ -8,7 +8,7 @@ import { auth } from "@middleware/auth";
 const categoryRouter = Router();
 
 categoryRouter.post(
-  "/create",
+  "/:create",
   auth.tenant,
   async (req: Request, res: Response) => {
     await createCategoryController.handle(req, res);
