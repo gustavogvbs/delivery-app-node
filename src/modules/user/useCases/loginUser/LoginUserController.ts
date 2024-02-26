@@ -19,12 +19,12 @@ export class LoginUserController {
     if (!email || !password) {
       throw new AppError("Email ou senha não informado", 404);
     }
-    const { user, token } = await this.loginUserUseCase.execute({
+    const result = await this.loginUserUseCase.execute({
       email,
       password,
     });
-    this.auth.setCookies(token, res);
+    this.auth.setCookies(result.token, res);
 
-    return res.status(200).json(user);
+    return res.status(200).json(result.user);
   }
 }
