@@ -4,10 +4,12 @@ import { ITenantRepository } from "@repositories/ITenantRepository";
 import { IUserRepository } from "@repositories/IUserRepository";
 
 import { AppError } from "@errors/AppErro";
+import { FormatterResponse } from "@utils/FormatterResponse";
 import { IJwtApi } from "@utils/JwtApi";
 import { SlugGenereted } from "@utils/SlugGenereted";
 
 import {
+  CreateTenantData,
   CreateTenantRequest,
   CreateTenantResponse,
 } from "../../dtos/CreateTenantDTO";
@@ -17,6 +19,7 @@ export class CreateTenantUseCase {
     private userRepository: IUserRepository,
     private tenantRepository: ITenantRepository,
     private jwtApi: IJwtApi,
+    private formatterResponse: FormatterResponse,
   ) {}
   async execute(data: CreateTenantRequest): Promise<CreateTenantResponse> {
     const slug = SlugGenereted({
@@ -34,7 +37,7 @@ export class CreateTenantUseCase {
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(data.user.password, salt);
 
-    const user = await this.userRepository.createTenant({
+    const { tenant, user } = await this.userRepository.createTenant({
       name: data.user.name,
       email: data.user.email,
       password: passwordHash,
@@ -52,15 +55,18 @@ export class CreateTenantUseCase {
       role: user.role,
     });
 
+    const res = this.formatterResponse.execute<CreateTenantData>(tenant.id, {
+      city: tenant.city,
+      name: tenant.name,
+      permission: tenant.permission,
+      phone: tenant.phone,
+      primaryColor: tenant.primaryColor,
+      slug: tenant.slug,
+    });
+
     const result = {
       token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        created_at: user.created_at,
-        updated_at: user.updated_at,
-      },
+      tenant: res,
     };
 
     return result;

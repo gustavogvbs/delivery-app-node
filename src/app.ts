@@ -1,6 +1,7 @@
 import "express-async-errors";
+import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { Request as RequestEx, Response } from "express";
+import express, { Request, Response } from "express";
 
 import { routes } from "@routes/index.routes";
 
@@ -8,12 +9,17 @@ import { AppError } from "@errors/AppErro";
 
 const app = express();
 
+app.use(cookieParser());
+
 app.use(
   cors({
     credentials: true,
     allowedHeaders: ["content-type"],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
-    origin: ["http://localhost:3000"],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      return callback(null, true);
+    },
   }),
 );
 
@@ -21,7 +27,7 @@ app.use(express.json());
 
 app.use(routes);
 
-app.use((err: Error, req: RequestEx, res: Response) => {
+app.use((err: Error, __: Request, res: Response) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       status: err.statusCode,

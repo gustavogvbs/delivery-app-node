@@ -6,6 +6,7 @@ import { JWTTypes } from "@type/jwtType";
 
 export interface IJwtApi {
   generate({ id, name, role }: JWTTypes): string;
+  decoded(token: string): string | jwt.JwtPayload;
 }
 
 export class JwtApi implements IJwtApi {
@@ -25,7 +26,7 @@ export class JwtApi implements IJwtApi {
     return token;
   }
   decoded(token: string) {
-    const decoded = jwt.sign(token, env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, env.JWT_SECRET_KEY);
 
     return decoded;
   }
