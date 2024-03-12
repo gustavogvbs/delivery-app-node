@@ -1,6 +1,7 @@
 import { Tenant } from "@prisma/client";
 
 export interface IUpdateTenantData {
+  id: string;
   name: string;
   city: string;
   primaryColor: string;

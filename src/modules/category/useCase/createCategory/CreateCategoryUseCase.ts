@@ -1,18 +1,22 @@
-import { Category } from "@prisma/client";
-
-import { CreateCategoryRequest } from "@modules/category/dtos/CreateCategoryDTO";
+import {
+  CreateCategoryData,
+  CreateCategoryRequest,
+  CreateCategoryResponse,
+} from "@modules/category/dtos/CreateCategoryDTO";
 import { ICategoryRepository } from "@repositories/ICategoryRepository";
 import { ITenantRepository } from "@repositories/ITenantRepository";
 
 import { AppError } from "@errors/AppErro";
+import { FormatterResponse } from "@utils/FormatterResponse";
 import { SlugGenereted } from "@utils/SlugGenereted";
 
 export class CreateCategoryUseCase {
   constructor(
     private categoryRepository: ICategoryRepository,
     private tenantRepository: ITenantRepository,
+    private formatterResponse: FormatterResponse,
   ) {}
-  async execute(data: CreateCategoryRequest): Promise<Category> {
+  async execute(data: CreateCategoryRequest): Promise<CreateCategoryResponse> {
     const tenantAlredyExists = await this.tenantRepository.findById(
       data.tenantId,
     );
@@ -33,6 +37,16 @@ export class CreateCategoryUseCase {
       tenantId: data.tenantId,
       slug,
     });
-    return category;
+
+    const result = this.formatterResponse.execute<CreateCategoryData>(
+      category.id,
+      {
+        created_at: category.created_at,
+        name: category.name,
+        slug: category.slug,
+        updated_at: category.updated_at,
+      },
+    );
+    return result;
   }
 }
