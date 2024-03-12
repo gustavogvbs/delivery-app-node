@@ -17,7 +17,9 @@ tenantRouter.patch(
     await updateTenantController.handle(req, res);
   },
 );
+
 tenantRouter.get("/:slug", async (req: Request, res: Response) => {
   await findTenantController.handle(req, res);
 });
+
 export { tenantRouter };

@@ -10,9 +10,13 @@ class authAccess {
   constructor(private jwt: JwtApi) {}
 
   execute(req: Request, next: NextFunction, layerPermission: role): void {
-    const data = req.cookies;
+    const cookie = req.cookies;
 
-    console.log(data);
+    console.log(cookie, "middleware");
+
+    if (!cookie || !cookie.token) {
+      throw new AppError("Token não encontrado", 404);
+    }
 
     let permission: string[] = [];
 
@@ -34,9 +38,9 @@ class authAccess {
         break;
     }
 
-    if (data.token && data.token !== "") {
+    if (cookie.token && cookie.token !== "") {
       try {
-        const decoded = JWTZod.safeParse(this.jwt.decoded(data.token));
+        const decoded = JWTZod.safeParse(this.jwt.decoded(cookie.token));
 
         if (decoded.success && decoded.data.role) {
           const hasPermission = permission.includes(decoded.data.role);

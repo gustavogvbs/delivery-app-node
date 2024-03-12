@@ -48,4 +48,10 @@ export class PrismaTenantRepository implements ITenantRepository {
     });
     return tenant;
   }
+
+  async getAll(): Promise<Tenant[]> {
+    const tenants = await prisma.tenant.findMany();
+
+    return tenants;
+  }
 }
