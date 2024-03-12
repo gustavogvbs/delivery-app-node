@@ -1,13 +1,44 @@
-import { Tenant } from "@prisma/client";
-
-import { UpdateTenantRequest } from "@modules/tenants/dtos/UpdateTenantDTO";
+import {
+  UpdateTenantData,
+  UpdateTenantRequest,
+  UpdateTenantResponse,
+} from "@modules/tenants/dtos/UpdateTenantDTO";
 import { ITenantRepository } from "@repositories/ITenantRepository";
 
-export class UpdateTenantUseCase {
-  constructor(private updateTenantRepository: ITenantRepository) {}
+import { AppError } from "@errors/AppErro";
+import { FormatterResponse } from "@utils/FormatterResponse";
 
-  async execute(data: UpdateTenantRequest): Promise<Tenant> {
-    const tenantUpdate = await this.updateTenantRepository.updateTenant(data);
-    return tenantUpdate;
+export class UpdateTenantUseCase {
+  constructor(
+    private updateTenantRepository: ITenantRepository,
+    private formatterResponse: FormatterResponse,
+  ) {}
+
+  async execute({
+    city,
+    name,
+    permission,
+    phone,
+    primaryColor,
+    slug,
+    id,
+  }: UpdateTenantRequest): Promise<UpdateTenantResponse> {
+    const tenant = await this.updateTenantRepository.updateTenant({
+      city,
+      id,
+      name,
+      permission,
+      phone,
+      primaryColor,
+      slug,
+    });
+    if (!tenant) {
+      throw new AppError("Propriedades não encontradas", 404);
+    }
+    const formatter = await this.formatterResponse.update<UpdateTenantData>(
+      tenant.id,
+      { city, name, permission, phone, primaryColor, slug },
+    );
+    return formatter;
   }
 }

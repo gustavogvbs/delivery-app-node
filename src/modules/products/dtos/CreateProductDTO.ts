@@ -1,3 +1,13 @@
+import { DefaultParams } from "@utils/DefaultParams";
+
+export interface CreateProductData extends DefaultParams {
+  slug: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+}
+
 export interface CreateProductRequest {
   name: string;
   price: number;
@@ -6,4 +16,9 @@ export interface CreateProductRequest {
   categoryId: string;
 }
 
-export interface CreateProductResponse {}
+export interface CreateProductResponse {
+  data: {
+    id: string;
+    attributes: CreateProductData;
+  };
+}
