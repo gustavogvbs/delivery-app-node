@@ -35,7 +35,7 @@ export class UpdateTenantUseCase {
     if (!tenant) {
       throw new AppError("Propriedades não encontradas", 404);
     }
-    const formatter = await this.formatterResponse.update<UpdateTenantData>(
+    const formatter = this.formatterResponse.execute<UpdateTenantData>(
       tenant.id,
       { city, name, permission, phone, primaryColor, slug },
     );

@@ -15,8 +15,31 @@ export class GetAllProductsUseCase {
 
   async execute(data: GetAllProductsRequest): Promise<GetAllProductsResponse> {
     const products = await this.productRepository.getAllProducts(data.tenantId);
-    const formatter =
-      await this.formatterResponse.array<GetAllProductsData>(products);
+    const formatter = this.formatterResponse.array<GetAllProductsData>(() => {
+      const ids: Array<string> = [];
+      const i: Array<number> = [];
+      const datas: Array<GetAllProductsData> = [];
+
+      products.forEach(
+        (
+          { id, slug, image, name, price, updated_at, description, created_at },
+          index,
+        ) => {
+          ids.push(id);
+          i.push(index);
+          datas.push({
+            slug,
+            image: image as string,
+            name,
+            price,
+            updated_at,
+            description,
+            created_at,
+          });
+        },
+      );
+      return { ids, i, datas };
+    });
 
     return formatter;
   }

@@ -41,9 +41,9 @@ export class CreateCategoryUseCase {
     const result = this.formatterResponse.execute<CreateCategoryData>(
       category.id,
       {
-        created_at: category.created_at,
         name: category.name,
         slug: category.slug,
+        created_at: category.created_at,
         updated_at: category.updated_at,
       },
     );

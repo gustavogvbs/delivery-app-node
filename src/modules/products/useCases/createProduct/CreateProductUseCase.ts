@@ -44,15 +44,15 @@ export class CreateProductUseCase {
       ...data,
       slug,
     });
-    const formatter = await this.formatterResponse.execute<CreateProductData>(
+    const formatter = this.formatterResponse.execute<CreateProductData>(
       product.id,
       {
-        created_at: product.created_at,
-        description: product.description,
-        image: product.image as string,
         name: product.name,
-        price: product.price,
         slug: product.slug,
+        price: product.price,
+        image: product.image as string,
+        description: product.description,
+        created_at: product.created_at,
         updated_at: product.updated_at,
       },
     );

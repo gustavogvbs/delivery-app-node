@@ -58,10 +58,10 @@ export class CreateTenantUseCase {
     const res = this.formatterResponse.execute<CreateTenantData>(tenant.id, {
       city: tenant.city,
       name: tenant.name,
-      permission: tenant.permission,
-      phone: tenant.phone,
-      primaryColor: tenant.primaryColor,
       slug: tenant.slug,
+      phone: tenant.phone,
+      permission: tenant.permission,
+      primaryColor: tenant.primaryColor,
     });
 
     const result = {

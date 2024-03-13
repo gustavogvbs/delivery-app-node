@@ -19,9 +19,17 @@ export class GetProductUseCase {
 
     if (!product) throw new AppError("Produto não encontrado", 404);
 
-    const formatter = await this.formatterResponse.execute<GetProductData>(
+    const formatter = this.formatterResponse.execute<GetProductData>(
       product.id,
-      { slug },
+      {
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        image: product.image as string,
+        description: product.description,
+        created_at: product.created_at,
+        updated_at: product.updated_at,
+      },
     );
 
     return formatter;

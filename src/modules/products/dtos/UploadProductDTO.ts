@@ -2,9 +2,10 @@ import { DefaultParams } from "@utils/DefaultParams";
 
 export interface UpdateProductData extends DefaultParams {
   name: string;
-  description: string;
-  price: number;
   slug: string;
+  price: number;
+  image: string;
+  description: string;
 }
 export interface UpdateProductRequest {
   name: string;

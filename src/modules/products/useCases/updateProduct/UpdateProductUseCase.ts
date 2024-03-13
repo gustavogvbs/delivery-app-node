@@ -31,14 +31,15 @@ export class UpdateProductUseCase {
     if (!product) {
       throw new AppError("Propriedades não encontradas", 404);
     }
-    const formatter = await this.formatterResponse.execute<UpdateProductData>(
+    const formatter = this.formatterResponse.execute<UpdateProductData>(
       product.id,
       {
-        created_at: product.created_at,
-        description: product.description,
         name: product.name,
-        price: product.price,
         slug: product.slug,
+        price: product.price,
+        image: product.image as string,
+        description: product.description,
+        created_at: product.created_at,
         updated_at: product.updated_at,
       },
     );

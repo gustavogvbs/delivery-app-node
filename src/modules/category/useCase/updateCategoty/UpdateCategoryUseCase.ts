@@ -28,9 +28,9 @@ export class UpdateCategoryUseCase {
     const data = this.formatterResponse.execute<UpdateCategoryData>(
       category.id,
       {
-        created_at: category.created_at,
         name: category.name,
         slug: category.slug,
+        created_at: category.created_at,
         updated_at: category.updated_at,
       },
     );
