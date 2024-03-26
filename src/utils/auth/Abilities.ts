@@ -4,7 +4,7 @@ import { USERS_ROLES } from "@src/enums/RoleEnum";
 import { User } from "./models/user";
 import { permissions } from "./Permission";
 import { CategorySubject } from "./subjects/category";
-import { ProductsSubject } from "./subjects/project";
+import { ProductsSubject } from "./subjects/products";
 import { TenantSubject } from "./subjects/tenant";
 
 type subjects = InferSubjects<

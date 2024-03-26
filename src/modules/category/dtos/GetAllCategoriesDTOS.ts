@@ -1,16 +1,13 @@
 import { DefaultParams } from "@utils/DefaultParams";
 
+import { ContractResponseArr } from "@type/contracts";
+
 export interface GetAllCategoryData extends DefaultParams {
   name: string;
   slug: string;
 }
 export interface GetAllCategoriesRequest {
-  idTenant: string;
+  slug: string;
 }
 
-export interface GetAllCategoryResponse {
-  data: {
-    id: string;
-    attributes: GetAllCategoryData;
-  }[];
-}
+export type GetAllCategoryResponse = ContractResponseArr<GetAllCategoryData>;

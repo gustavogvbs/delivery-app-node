@@ -1,19 +1,29 @@
+import {
+  ContractResponseAttr,
+  ContractResponseData,
+  ContractResponseTimestamps,
+} from "@type/contracts";
+
+export interface MeUserRelationTenant {
+  slug: string;
+  name: string;
+  city: string;
+  primaryColor: string;
+  phone: string;
+  userId: string;
+}
+
 export interface MeUserRequest {
   role: string;
   token: string;
 }
 
-export interface MeUserData {
+export interface MeUserData extends ContractResponseTimestamps {
   name: string;
   email: string;
   phone: string;
-  updated_at: Date;
-  created_at: Date;
+
+  tenant?: ContractResponseAttr<MeUserRelationTenant>;
 }
 
-export interface MeUserResponse {
-  data: {
-    id: string;
-    attributes: MeUserData;
-  };
-}
+export type MeUserResponse = ContractResponseData<MeUserData>;
