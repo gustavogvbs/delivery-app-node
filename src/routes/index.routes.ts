@@ -7,6 +7,7 @@ import { registerRouter } from "@routes/register.routes";
 import { uploadRouter } from "@routes/upload.routes";
 import { userRouter } from "@routes/user.routes";
 
+import { authRouter } from "./authenticate.routes";
 import { orderRouter } from "./order.routes";
 import { tenantRouter } from "./tenants.routes";
 
@@ -25,6 +26,8 @@ routes.use("/product", productRouter);
 routes.use("/tenant", tenantRouter);
 
 routes.use("/order", orderRouter);
+
+routes.use("/authenticate", authRouter);
 
 routes.use(getAllRoutes);
 
