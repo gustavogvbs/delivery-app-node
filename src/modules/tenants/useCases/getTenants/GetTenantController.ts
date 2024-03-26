@@ -8,8 +8,6 @@ export class GetTenantsController {
   async handle(__: Request, res: Response) {
     const result = await this.getTenantUseCase.execute();
 
-    console.log(result, "controller");
-
     res.status(200).json(result);
   }
 }

@@ -9,7 +9,7 @@ import { auth } from "@middleware/auth";
 
 const getAllRoutes = Router();
 
-getAllRoutes.get("/categories", async (req: Request, res: Response) => {
+getAllRoutes.get("/categories/:slug", async (req: Request, res: Response) => {
   await getAllCategoriesController.handle(req, res);
 });
 

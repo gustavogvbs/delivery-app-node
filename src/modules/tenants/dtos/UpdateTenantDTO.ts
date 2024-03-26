@@ -15,6 +15,7 @@ export interface UpdateTenantRequest {
   phone: string;
   primaryColor: string;
   slug: string;
+  token: string;
 }
 export interface UpdateTenantResponse {
   data: {

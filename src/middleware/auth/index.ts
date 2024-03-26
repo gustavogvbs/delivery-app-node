@@ -12,7 +12,6 @@ class authAccess {
   execute(req: Request, next: NextFunction, layerPermission: role): void {
     const cookie = req.cookies;
 
-    console.log(cookie, "middleware");
 
     if (!cookie || !cookie.token) {
       throw new AppError("Token não encontrado", 404);
