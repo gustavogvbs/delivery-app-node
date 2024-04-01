@@ -7,6 +7,7 @@ import {
 } from "@repositories/IProductRepository";
 
 import { prisma } from "@configs/client";
+import { AppError } from "@errors/AppErro";
 
 export class PrismaProductRepository implements IProductRepository {
   async createProduct(
@@ -31,6 +32,7 @@ export class PrismaProductRepository implements IProductRepository {
 
     return product;
   }
+
   async getBySlug(slug: string, tenantId: string): Promise<Product | null> {
     const product = await prisma.product.findFirst({
       where: {
@@ -40,6 +42,16 @@ export class PrismaProductRepository implements IProductRepository {
     });
     return product;
   }
+
+  async getById(id: string): Promise<Product | null> {
+    const product = await prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
+    return product;
+  }
+
   async getAllProducts(
     tenantId: string,
     query?: string[],
@@ -69,5 +81,20 @@ export class PrismaProductRepository implements IProductRepository {
       },
     });
     return product;
+  }
+
+  async deleteProduct(id: string): Promise<void> {
+    try {
+      await prisma.product.delete({
+        where: {
+          id,
+        },
+      });
+    } catch (__) {
+      throw new AppError(
+        "Internal erro - Não foi possivel deletar o produto!",
+        500,
+      );
+    }
   }
 }
