@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
 
 import {
   ICreateProductData,
@@ -9,7 +9,10 @@ import {
 import { prisma } from "@configs/client";
 
 export class PrismaProductRepository implements IProductRepository {
-  async createProduct(data: ICreateProductData): Promise<Product> {
+  async createProduct(
+    data: ICreateProductData,
+    query: string[],
+  ): Promise<Product & { category: Category | null }> {
     const product = await prisma.product.create({
       data: {
         slug: data.slug,
@@ -19,22 +22,34 @@ export class PrismaProductRepository implements IProductRepository {
         tenantId: data.tenantId,
         categoryId: data.categoryId,
       },
+      include: {
+        category: query ? query.includes("category") : false,
+        tenant: query ? query.includes("tenant") : false,
+      },
     });
 
     return product;
   }
-  async getBySlug(slug: string): Promise<Product | null> {
-    const product = await prisma.product.findUnique({
+  async getBySlug(slug: string, tenantId: string): Promise<Product | null> {
+    const product = await prisma.product.findFirst({
       where: {
         slug,
+        tenantId,
       },
     });
     return product;
   }
-  async getAllProducts(tenantId: string): Promise<Product[]> {
+  async getAllProducts(
+    tenantId: string,
+    query?: string[],
+  ): Promise<(Product & { category: Category })[]> {
     const product = await prisma.product.findMany({
       where: {
         tenantId,
+      },
+      include: {
+        category: query ? query.includes("category") : false,
+        tenant: query ? query.includes("tenant") : false,
       },
     });
     return product;

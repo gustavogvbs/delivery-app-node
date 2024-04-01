@@ -25,8 +25,8 @@ export interface IUserRepository {
   createUser(data: DataCreateUser): Promise<User>;
   createTenant(data: DataCreateTenant): Promise<{ tenant: Tenant; user: User }>;
   findByRole(role: $Enums.role): Promise<User | null>;
-  findById(id: string): Promise<{
-    tenant?: Tenant;
-    user: (User & Tenant) | User | null;
-  } | null>;
+  findById(
+    id: string,
+    query?: string[],
+  ): Promise<(User & { tenant: Tenant | null }) | null>;
 }

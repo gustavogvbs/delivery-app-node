@@ -13,9 +13,6 @@ export class PrismaTenantRepository implements ITenantRepository {
       where: {
         slug,
       },
-      include: {
-        user: true,
-      },
     });
 
     return tenant;
@@ -24,6 +21,18 @@ export class PrismaTenantRepository implements ITenantRepository {
     const tenant = await prisma.tenant.findUnique({
       where: {
         id,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return tenant;
+  }
+  async findByUserId(id: string): Promise<Tenant | null> {
+    const tenant = await prisma.tenant.findUnique({
+      where: {
+        userId: id,
       },
       include: {
         user: true,

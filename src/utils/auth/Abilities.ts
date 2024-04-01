@@ -13,7 +13,7 @@ type subjects = InferSubjects<
 
 export type AppAbility = PureAbility<subjects>;
 
-export const defineAbilityFor = (user: User) => {
+export const defineAbilityFor = (user: User): AppAbility => {
   const builder = new AbilityBuilder<AppAbility>(PureAbility);
 
   if (user.role === USERS_ROLES.ADMIN) permissions.ADMIN(user, builder);

@@ -22,8 +22,6 @@ export class GetAllCategoriesUseCase {
   }: GetAllCategoriesRequest): Promise<GetAllCategoryResponse> {
     const tenant = await this.tenantRepository.findBySlug(slug);
 
-    console.log(tenant);
-
     if (!tenant) throw new AppError("Estabelecimento não encontrado", 403);
 
     const categories = await this.categoryRepository.getAllCategories(

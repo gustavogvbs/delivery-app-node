@@ -9,8 +9,6 @@ export class GetAllCategoriesController {
   async handle(req: Request, res: Response) {
     const { slug } = req.params;
 
-    console.log(req.body);
-
     if (!slug) {
       throw new AppError("Propriedades não encontradas", 404);
     }

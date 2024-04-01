@@ -9,6 +9,7 @@ export const getUserPermission = (userId: string, role: Role) => {
   });
 
   const ability = defineAbilityFor(authUser);
+  console.log(defineAbilityFor(authUser));
 
   return ability;
 };

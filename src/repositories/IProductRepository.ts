@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
 
 export interface ICreateProductData {
   tenantId: string;
@@ -18,8 +18,14 @@ export interface IUploadProductData {
 }
 
 export interface IProductRepository {
-  createProduct(data: ICreateProductData): Promise<Product>;
-  getBySlug(slug: string): Promise<Product | null>;
-  getAllProducts(tenantId: string): Promise<Product[]>;
+  createProduct(
+    data: ICreateProductData,
+    query: string[],
+  ): Promise<Product & { category: Category | null }>;
+  getBySlug(slug: string, tenantId: string): Promise<Product | null>;
+  getAllProducts(
+    tenantId: string,
+    query?: string[],
+  ): Promise<(Product & { category: Category })[]>;
   updateProduct(data: IUploadProductData): Promise<Product | null>;
 }
