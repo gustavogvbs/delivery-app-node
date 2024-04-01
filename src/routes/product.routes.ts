@@ -2,6 +2,7 @@ import { USERS_ROLES as role } from "@src/enums/RoleEnum";
 import { Router, Response, Request, NextFunction } from "express";
 
 import { createProductController } from "@modules/products/useCases/createProduct";
+import { deleteProductController } from "@modules/products/useCases/deleteProduct";
 import { getProductController } from "@modules/products/useCases/getProduct";
 import { updateProductController } from "@modules/products/useCases/updateProduct";
 
@@ -22,11 +23,16 @@ productRouter.get("/:slug", async (req: Request, res: Response) => {
   await getProductController.handle(req, res);
 });
 
+productRouter.delete("/:id", async (req: Request, res: Response) => {
+  await deleteProductController.handle(req, res);
+});
+
 productRouter.patch(
   "/:slug",
   async (req: Request, __: Response, next: NextFunction) => {
     auth.execute(req, next, role.TENANT);
   },
+
   async (req: Request, res: Response) => {
     await updateProductController.handle(req, res);
   },

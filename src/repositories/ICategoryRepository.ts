@@ -16,4 +16,5 @@ export interface ICategoryRepository {
   findById(id: string): Promise<Category | null>;
   findBySlug(slug: string, id: string): Promise<Category | null>;
   updateCategory({ slug, name }: IUpdateCategoryData): Promise<Category>;
+  deleteCategory(id: string): Promise<void>;
 }

@@ -7,6 +7,7 @@ import {
 } from "@repositories/ICategoryRepository";
 
 import { prisma } from "@configs/client";
+import { AppError } from "@errors/AppErro";
 
 export class PrismaCategoryRepository implements ICategoryRepository {
   async findById(id: string): Promise<Category | null> {
@@ -64,5 +65,19 @@ export class PrismaCategoryRepository implements ICategoryRepository {
       },
     });
     return category;
+  }
+  async deleteCategory(id: string): Promise<void> {
+    try {
+      await prisma.category.delete({
+        where: {
+          id,
+        },
+      });
+    } catch (__) {
+      throw new AppError(
+        "Internal erro - Não foi possivel deletar o produto!",
+        500,
+      );
+    }
   }
 }
