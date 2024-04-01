@@ -22,11 +22,11 @@ export class UpdateProductUseCase {
     slug,
   }: UpdateProductRequest): Promise<UpdateProductResponse> {
     const product = await this.productRepository.updateProduct({
-      categoryId,
-      description,
       name,
       price,
       slug,
+      categoryId,
+      description,
     });
     if (!product) {
       throw new AppError("Propriedades não encontradas", 404);

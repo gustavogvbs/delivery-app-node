@@ -10,7 +10,6 @@ export const productsSubject = z.tuple([
     z.literal("create"),
     z.literal("update"),
     z.literal("delete"),
-    z.literal("read"),
   ]),
   productsTypeName,
 ]);
