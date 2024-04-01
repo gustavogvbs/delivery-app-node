@@ -33,8 +33,6 @@ export class MeUseCase {
       throw new AppError("Usuario não encontrado", 405);
     }
 
-    console.log(user);
-
     const relationResult = user.tenant
       ? this.formatterResponse.execute<MeUserRelationTenant>(user.tenant.id, {
           city: user.tenant.city,

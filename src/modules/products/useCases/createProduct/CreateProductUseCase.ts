@@ -8,6 +8,8 @@ import { FormatterResponse } from "@utils/FormatterResponse";
 import { IJwtApi } from "@utils/JwtApi";
 import { SlugGenereted } from "@utils/SlugGenereted";
 
+import { imageJsonSchema } from "@type/image-json";
+
 import {
   CreateProductData,
   CreateProductRelationCategory,
@@ -70,9 +72,10 @@ export class CreateProductUseCase {
         categoryId: data.categoryId,
         description: data.description,
         name: data.name,
-        price: data.price,
+        price: parseFloat(data.price),
         tenantId: tenantAlreadExist.id,
         slug,
+        image: data.image,
       },
       data.query,
     );
@@ -97,7 +100,7 @@ export class CreateProductUseCase {
         name: product.name,
         slug: product.slug,
         price: product.price,
-        image: product.image as string,
+        image: imageJsonSchema.parse(product.image),
         description: product.description,
         created_at: product.created_at,
         updated_at: product.updated_at,

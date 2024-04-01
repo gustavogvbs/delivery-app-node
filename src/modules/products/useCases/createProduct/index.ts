@@ -3,6 +3,7 @@ import { PrismaProductRepository } from "@repositories/implementations/PrismaPro
 import { PrismaTenantRepository } from "@repositories/implementations/PrismaTenantRepository";
 import { PrismaUserRepository } from "@repositories/implementations/PrismaUserRepository";
 
+import { uploadImageService } from "@services/aws/images";
 import { FormatterResponse } from "@utils/FormatterResponse";
 import { JwtApi } from "@utils/JwtApi";
 
@@ -26,6 +27,7 @@ const createProductUseCase = new CreateProductUseCase(
 );
 const createProductController = new CreateProductController(
   createProductUseCase,
+  uploadImageService,
 );
 
 export { createProductController, createProductUseCase };

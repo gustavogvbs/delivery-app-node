@@ -10,6 +10,8 @@ import { ITenantRepository } from "@repositories/ITenantRepository";
 import { AppError } from "@errors/AppErro";
 import { FormatterResponse } from "@utils/FormatterResponse";
 
+import { imageJsonSchema } from "@type/image-json";
+
 export class GetAllProductsUseCase {
   constructor(
     private tenantRepository: ITenantRepository,
@@ -33,13 +35,14 @@ export class GetAllProductsUseCase {
       const datas: Array<GetAllProductsData> = [];
 
       products.forEach((product, index) => {
+        console.log("ola");
         const { category } = product;
         ids.push(product.id);
         i.push(index);
         datas.push({
           name: product.name,
           slug: product.slug,
-          image: product.image as string,
+          image: imageJsonSchema.parse(product.image),
           price: product.price,
           description: product.description,
           created_at: product.created_at,

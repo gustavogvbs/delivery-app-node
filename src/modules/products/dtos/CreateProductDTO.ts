@@ -1,6 +1,7 @@
 import { DefaultParams } from "@utils/DefaultParams";
 
 import { ContractResponseAttr, ContractResponseData } from "@type/contracts";
+import { ImageJsonSchemaType } from "@type/image-json";
 
 export interface CreateProductRelationCategory extends DefaultParams {
   name: string;
@@ -12,17 +13,18 @@ export interface CreateProductData extends DefaultParams {
   name: string;
   price: number;
   description: string;
-  image: string;
+  image: ImageJsonSchemaType;
   category: ContractResponseAttr<CreateProductRelationCategory>;
 }
 
 export interface CreateProductRequest {
   name: string;
-  price: number;
+  price: string;
   description: string;
   categoryId: string;
   token: string;
   query: string[];
+  image: ImageJsonSchemaType;
 }
 
 export type CreateProductResponse = ContractResponseData<CreateProductData>;

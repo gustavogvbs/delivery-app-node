@@ -18,8 +18,6 @@ export class MeController {
       throw new AppError("Token não encontrado", 404);
     }
 
-    console.log(query, "query");
-
     const result = await this.meUseCase.execute({
       token,
       role: role.toUpperCase(),

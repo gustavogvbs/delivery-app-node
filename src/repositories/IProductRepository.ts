@@ -1,5 +1,7 @@
 import { Category, Product } from "@prisma/client";
 
+import { ImageJsonSchemaType } from "@type/image-json";
+
 export interface ICreateProductData {
   tenantId: string;
   categoryId: string;
@@ -7,6 +9,7 @@ export interface ICreateProductData {
   slug: string;
   description: string;
   price: number;
+  image: ImageJsonSchemaType;
 }
 
 export interface IUploadProductData {

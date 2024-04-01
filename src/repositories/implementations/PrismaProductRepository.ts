@@ -21,6 +21,7 @@ export class PrismaProductRepository implements IProductRepository {
         price: data.price,
         tenantId: data.tenantId,
         categoryId: data.categoryId,
+        image: data.image,
       },
       include: {
         category: query ? query.includes("category") : false,
