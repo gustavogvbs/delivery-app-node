@@ -1,4 +1,4 @@
-import { $Enums, User } from "@prisma/client";
+import { $Enums, Tenant, User } from "@prisma/client";
 
 export interface DataCreateUser {
   name: string;
@@ -23,7 +23,10 @@ export interface DataCreateTenant {
 export interface IUserRepository {
   findByEmail(email: string): Promise<User | null>;
   createUser(data: DataCreateUser): Promise<User>;
-  createTenant(data: DataCreateTenant): Promise<User>;
-  findById(id: string): Promise<User | null>;
+  createTenant(data: DataCreateTenant): Promise<{ tenant: Tenant; user: User }>;
   findByRole(role: $Enums.role): Promise<User | null>;
+  findById(
+    id: string,
+    query?: string[],
+  ): Promise<(User & { tenant: Tenant | null }) | null>;
 }

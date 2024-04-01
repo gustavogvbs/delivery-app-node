@@ -1,11 +1,8 @@
-import { USERS_ROLES as role } from "@src/enums/RoleEnum";
-import { Router, Response, Request, NextFunction } from "express";
+import { Router, Response, Request } from "express";
 
-import { findUserController } from "@modules/user/useCases/findUser";
 import { loginUserController } from "@modules/user/useCases/loginUser";
 import { logoutUserController } from "@modules/user/useCases/logoutUser";
-
-import { auth } from "@middleware/auth";
+import { meController } from "@modules/user/useCases/me";
 
 const userRouter = Router();
 
@@ -17,14 +14,8 @@ userRouter.get("/logout", async (req: Request, res: Response) => {
   await logoutUserController.handle(req, res);
 });
 
-userRouter.get(
-  "/:id",
-  async (req: Request, __: Response, next: NextFunction) => {
-    auth.execute(req, next, role.CLIENT);
-  },
-  async (req: Request, res: Response) => {
-    await findUserController.handle(req, res);
-  },
-);
+userRouter.get("/me/:role", async (req: Request, res: Response) => {
+  await meController.handle(req, res);
+});
 
 export { userRouter };

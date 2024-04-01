@@ -1,6 +1,7 @@
 import { Tenant } from "@prisma/client";
 
 export interface IUpdateTenantData {
+  id: string;
   name: string;
   city: string;
   primaryColor: string;
@@ -12,5 +13,7 @@ export interface IUpdateTenantData {
 export interface ITenantRepository {
   findBySlug(slug: string): Promise<Tenant | null>;
   findById(id: string): Promise<Tenant | null>;
+  findByUserId(id: string): Promise<Tenant | null>;
   updateTenant(data: IUpdateTenantData): Promise<Tenant>;
+  getAll(): Promise<Tenant[]>;
 }

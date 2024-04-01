@@ -1,13 +1,39 @@
-import { Category } from "@prisma/client";
-
-import { UpdateCategoryRequest } from "@modules/category/dtos/UpdateCategoryDTO";
+import {
+  UpdateCategoryData,
+  UpdateCategoryRequest,
+  UpdateCategoryResponse,
+} from "@modules/category/dtos/UpdateCategoryDTO";
 import { ICategoryRepository } from "@repositories/ICategoryRepository";
 
-export class UpdateCategoryUseCase {
-  constructor(private categoryRepository: ICategoryRepository) {}
+import { AppError } from "@errors/AppErro";
+import { FormatterResponse } from "@utils/FormatterResponse";
 
-  async execute(data: UpdateCategoryRequest): Promise<Category> {
-    const category = await this.categoryRepository.updateCategory(data);
-    return category;
+export class UpdateCategoryUseCase {
+  constructor(
+    private categoryRepository: ICategoryRepository,
+    private formatterResponse: FormatterResponse,
+  ) {}
+
+  async execute({
+    name,
+    slug,
+  }: UpdateCategoryRequest): Promise<UpdateCategoryResponse> {
+    const category = await this.categoryRepository.updateCategory({
+      name,
+      slug,
+    });
+    if (!category) {
+      throw new AppError("Propriedades não encontradas", 404);
+    }
+    const data = this.formatterResponse.execute<UpdateCategoryData>(
+      category.id,
+      {
+        name: category.name,
+        slug: category.slug,
+        created_at: category.created_at,
+        updated_at: category.updated_at,
+      },
+    );
+    return data;
   }
 }

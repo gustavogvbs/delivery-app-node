@@ -1,38 +1,30 @@
-import "express-async-errors";
+import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { Request as RequestEx, Response } from "express";
+import express from "express";
+import "express-async-errors";
 
 import { routes } from "@routes/index.routes";
 
-import { AppError } from "@errors/AppErro";
+import { handleError } from "@middleware/handleError";
 
 const app = express();
 
+app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
     allowedHeaders: ["content-type"],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
-    origin: ["*"],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      return callback(null, true);
+    },
   }),
 );
 
-app.use(express.json());
-
 app.use(routes);
 
-app.use((err: Error, req: RequestEx, res: Response) => {
-  if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
-      status: err.statusCode,
-      menssage: err.menssage,
-    });
-  }
-
-  return res.status(500).json({
-    status: "Error 500",
-    menssage: `Internal server error - ${err.message}`,
-  });
-});
+app.use(handleError);
 
 export { app };

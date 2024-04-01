@@ -2,15 +2,11 @@ import { USERS_ROLES } from "@src/enums/RoleEnum";
 import { Request, Response } from "express";
 
 import { AppError } from "@errors/AppErro";
-import { Authenticate } from "@utils/Authenticate";
 
 import { CreateTenantUseCase } from "./CreateTenantsUseCases";
 
 export class CreateTenantController {
-  constructor(
-    private createTenantUseCase: CreateTenantUseCase,
-    private auth: Authenticate,
-  ) {}
+  constructor(private createTenantUseCase: CreateTenantUseCase) {}
   async handle(req: Request, res: Response) {
     const { name, email, password, tenantName, city, phone, primaryColor } =
       req.body;
@@ -41,8 +37,6 @@ export class CreateTenantController {
       },
     });
 
-    this.auth.setCookies(result.token, res);
-
-    return res.status(201).json(result.user);
+    return res.status(201).json(result.tenant);
   }
 }

@@ -7,12 +7,13 @@ import { GetAllCategoriesUseCase } from "./GetAllCategoriesUseCase";
 export class GetAllCategoriesController {
   constructor(private getAllCategoriesUseCase: GetAllCategoriesUseCase) {}
   async handle(req: Request, res: Response) {
-    const { idTenant } = req.body;
-    if (!idTenant) {
+    const { slug } = req.params;
+
+    if (!slug) {
       throw new AppError("Propriedades não encontradas", 404);
     }
     const result = await this.getAllCategoriesUseCase.execute({
-      idTenant,
+      slug,
     });
     return res.status(200).json(result);
   }

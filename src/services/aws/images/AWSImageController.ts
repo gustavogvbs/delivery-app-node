@@ -9,7 +9,7 @@ export class AWSImageController {
   async Upload(req: Request, res: Response) {
     const { file } = req;
     if (file) {
-      await this.uploadImageService.execute(file);
+      await this.uploadImageService.execute(file, "apenas um teste");
 
       return res
         .status(201)

@@ -22,13 +22,13 @@ export class S3Storage {
     });
   }
 
-  async saveFile(fileName: string): Promise<void> {
+  async saveFile(fileName: string): Promise<string> {
     const originalPath = path.resolve(multerConfig.directory, fileName);
 
     const ContentType = mime.contentType(originalPath);
 
     if (ContentType !== "image/jpeg" && ContentType !== "image/png") {
-      throw new AppError("The contenty-type not permition");
+      throw new AppError("The contenty-type not permition", 400);
     }
 
     const fileContent = await fs.promises.readFile(originalPath);
@@ -48,8 +48,12 @@ export class S3Storage {
       console.log(progress);
     });
 
-    parallelUploads3.done();
+    const { $metadata, Location } = await parallelUploads3.done();
+
+    if ($metadata.httpStatusCode !== 200 || !Location) throw new Error();
 
     await fs.promises.unlink(originalPath);
+
+    return Location;
   }
 }

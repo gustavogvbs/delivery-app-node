@@ -17,10 +17,25 @@ export class PrismaTenantRepository implements ITenantRepository {
 
     return tenant;
   }
-  async findById(slug: string): Promise<Tenant | null> {
+  async findById(id: string): Promise<Tenant | null> {
     const tenant = await prisma.tenant.findUnique({
       where: {
-        slug,
+        id,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return tenant;
+  }
+  async findByUserId(id: string): Promise<Tenant | null> {
+    const tenant = await prisma.tenant.findUnique({
+      where: {
+        userId: id,
+      },
+      include: {
+        user: true,
       },
     });
 
@@ -33,12 +48,14 @@ export class PrismaTenantRepository implements ITenantRepository {
     phone,
     slug,
     permission,
+    id,
   }: IUpdateTenantData): Promise<Tenant> {
     const tenant = await prisma.tenant.update({
       where: {
-        slug,
+        id,
       },
       data: {
+        slug,
         name,
         city,
         primaryColor,
@@ -47,5 +64,11 @@ export class PrismaTenantRepository implements ITenantRepository {
       },
     });
     return tenant;
+  }
+
+  async getAll(): Promise<Tenant[]> {
+    const tenants = await prisma.tenant.findMany();
+
+    return tenants;
   }
 }

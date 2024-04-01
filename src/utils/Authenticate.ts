@@ -1,20 +1,16 @@
 import { serialize } from "cookie";
 import { Response } from "express";
 
-import { env } from "@src/env";
-
 import { AppError } from "@errors/AppErro";
 
 export class Authenticate {
   setCookies(token: string, res: Response) {
     const serialized = serialize("token", token, {
       httpOnly: true,
-      secure: env.NODE_ENV !== "development",
-      sameSite: "strict",
+      secure: false,
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
     });
-
     res.setHeader("Set-Cookie", serialized);
   }
 
@@ -25,11 +21,11 @@ export class Authenticate {
 
     const serialized = serialize("token", "", {
       httpOnly: true,
-      secure: env.NODE_ENV !== "development",
-      sameSite: "strict",
       maxAge: -1,
       path: "/",
+      secure: false,
     });
-    res.setHeader("Set-Cookie", serialized);
+
+    res.cookie("Set-Cookie", serialized);
   }
 }

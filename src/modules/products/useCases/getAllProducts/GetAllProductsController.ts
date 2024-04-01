@@ -8,11 +8,17 @@ export class GetAllProductsController {
   constructor(private getALlProductsUseCase: GetAllProductsUseCase) {}
 
   async handle(req: Request, res: Response) {
-    const { tenantId } = req.body;
+    const { slug } = req.params;
+    const { populate } = req.query;
 
-    if (!tenantId) throw new AppError("Propriedades não encontrada", 404);
+    const query = typeof populate === "string" ? [populate] : populate;
 
-    const result = await this.getALlProductsUseCase.execute({ tenantId });
+    if (!slug) throw new AppError("Propriedades não encontrada", 404);
+
+    const result = await this.getALlProductsUseCase.execute({
+      slug,
+      query: populate ? (query as string[]) : undefined,
+    });
 
     return res.status(200).json(result);
   }
