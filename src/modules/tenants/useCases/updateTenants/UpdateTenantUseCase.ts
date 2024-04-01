@@ -38,6 +38,7 @@ export class UpdateTenantUseCase {
     if (!decoded.success) throw new AppError("Usuario não esta logado", 403);
 
     const user = await this.userRepository.findById(decoded.data.id);
+
     if (!user) throw new AppError("Usuario não encontrado", 404);
 
     const tenantAuth = await this.tenantRepository.findById(id);

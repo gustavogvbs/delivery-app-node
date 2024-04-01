@@ -24,22 +24,23 @@ export class MeUseCase {
 
     if (!decoded.success) throw new AppError("jwt invalido", 403);
 
-    const res = await this.userRepository.findById(decoded.data.id);
+    const user = await this.userRepository.findById(
+      decoded.data.id,
+      data.query,
+    );
 
-    if (!res || !res?.user) {
+    if (!user) {
       throw new AppError("Usuario não encontrado", 405);
     }
 
-    const { user, tenant } = res;
-
-    const relationResult = tenant
-      ? this.formatterResponse.execute<MeUserRelationTenant>(tenant.id, {
-          city: tenant.city,
-          name: tenant.name,
-          phone: tenant.phone,
-          primaryColor: tenant.primaryColor,
-          slug: tenant.slug,
-          userId: tenant.userId,
+    const relationResult = user.tenant
+      ? this.formatterResponse.execute<MeUserRelationTenant>(user.tenant.id, {
+          city: user.tenant.city,
+          name: user.tenant.name,
+          phone: user.tenant.phone,
+          primaryColor: user.tenant.primaryColor,
+          slug: user.tenant.slug,
+          userId: user.tenant.userId,
         })
       : undefined;
 

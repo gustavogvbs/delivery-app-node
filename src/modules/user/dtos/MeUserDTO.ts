@@ -16,6 +16,7 @@ export interface MeUserRelationTenant {
 export interface MeUserRequest {
   role: string;
   token: string;
+  query?: string[];
 }
 
 export interface MeUserData extends ContractResponseTimestamps {

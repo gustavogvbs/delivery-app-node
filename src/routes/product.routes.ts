@@ -5,13 +5,18 @@ import { createProductController } from "@modules/products/useCases/createProduc
 import { getProductController } from "@modules/products/useCases/getProduct";
 import { updateProductController } from "@modules/products/useCases/updateProduct";
 
+import { useUpload } from "@configs/multer.config";
 import { auth } from "@middleware/auth";
 
 const productRouter = Router();
 
-productRouter.post("/create", async (req: Request, res: Response) => {
-  await createProductController.handle(req, res);
-});
+productRouter.post(
+  "/create",
+  useUpload.single("image"),
+  async (req: Request, res: Response) => {
+    await createProductController.handle(req, res);
+  },
+);
 
 productRouter.get("/:slug", async (req: Request, res: Response) => {
   await getProductController.handle(req, res);

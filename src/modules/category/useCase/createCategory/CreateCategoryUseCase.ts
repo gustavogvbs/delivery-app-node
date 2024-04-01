@@ -24,7 +24,9 @@ export class CreateCategoryUseCase {
     const decoded = JWTZod.safeParse(this.jwt.decoded(data.token));
     if (!decoded.success) throw new AppError("Usuario não esta logado", 403);
 
-    const tenantAuth = await this.tenantRepository.findById(decoded.data.id);
+    const tenantAuth = await this.tenantRepository.findByUserId(
+      decoded.data.id,
+    );
 
     if (!tenantAuth) {
       throw new AppError("Estabelecimento não encontrado", 400);
@@ -33,7 +35,11 @@ export class CreateCategoryUseCase {
       name: data.name,
     });
 
-    const categoryAlreadExist = await this.categoryRepository.findBySlug(slug);
+    const categoryAlreadExist = await this.categoryRepository.findBySlug(
+      slug,
+      tenantAuth.id,
+    );
+
     if (categoryAlreadExist && categoryAlreadExist.tenantId === tenantAuth.id)
       throw new AppError("O slug da categoria ja foi registrado", 400);
 

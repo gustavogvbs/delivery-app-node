@@ -18,15 +18,20 @@ export class PrismaCategoryRepository implements ICategoryRepository {
 
     return category;
   }
-  async findBySlug(slug: string): Promise<Category | null> {
-    const category = await prisma.category.findUnique({
+
+  async findBySlug(slug: string, id: string): Promise<Category | null> {
+    const category = await prisma.category.findFirst({
       where: {
         slug,
+        AND: {
+          tenantId: { contains: id },
+        },
       },
     });
 
     return category;
   }
+
   async createCategory(data: ICreateCategoryData): Promise<Category> {
     const category = await prisma.category.create({
       data: {
@@ -38,6 +43,7 @@ export class PrismaCategoryRepository implements ICategoryRepository {
 
     return category;
   }
+
   async getAllCategories(tenantId: string): Promise<Category[]> {
     const categories = await prisma.category.findMany({
       where: {
