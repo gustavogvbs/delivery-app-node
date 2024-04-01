@@ -13,6 +13,7 @@ export interface IUpdateTenantData {
 export interface ITenantRepository {
   findBySlug(slug: string): Promise<Tenant | null>;
   findById(id: string): Promise<Tenant | null>;
+  findByUserId(id: string): Promise<Tenant | null>;
   updateTenant(data: IUpdateTenantData): Promise<Tenant>;
   getAll(): Promise<Tenant[]>;
 }

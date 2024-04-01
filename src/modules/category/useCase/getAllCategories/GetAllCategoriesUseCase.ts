@@ -1,4 +1,5 @@
 import { ICategoryRepository } from "@repositories/ICategoryRepository";
+import { ITenantRepository } from "@repositories/ITenantRepository";
 
 import { AppError } from "@errors/AppErro";
 import { FormatterResponse } from "@utils/FormatterResponse";
@@ -11,18 +12,21 @@ import {
 
 export class GetAllCategoriesUseCase {
   constructor(
+    private tenantRepository: ITenantRepository,
     private categoryRepository: ICategoryRepository,
     private formatterResponse: FormatterResponse,
   ) {}
 
   async execute({
-    idTenant,
+    slug,
   }: GetAllCategoriesRequest): Promise<GetAllCategoryResponse> {
-    const categories = await this.categoryRepository.getAllCategories(idTenant);
+    const tenant = await this.tenantRepository.findBySlug(slug);
 
-    if (!categories) {
-      throw new AppError("Propriedades não encontradas", 404);
-    }
+    if (!tenant) throw new AppError("Estabelecimento não encontrado", 403);
+
+    const categories = await this.categoryRepository.getAllCategories(
+      tenant.id,
+    );
 
     const result = this.formatterResponse.array<GetAllCategoryData>(() => {
       const ids: Array<string> = [];

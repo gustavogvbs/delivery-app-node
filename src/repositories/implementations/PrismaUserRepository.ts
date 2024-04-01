@@ -29,13 +29,18 @@ export class PrismaUserRepository implements IUserRepository {
     return user;
   }
 
-  async findById(id: string): Promise<User | null> {
+  async findById(
+    id: string,
+    query?: string[],
+  ): Promise<(User & { tenant: Tenant | null }) | null> {
     const user = await prisma.user.findUnique({
       where: {
         id,
       },
       include: {
-        tenant: true,
+        tenant: query ? query.includes("tenant") : false,
+        adresses: query ? query.includes("adresses") : false,
+        orders: query ? query.includes("orders") : false,
       },
     });
 

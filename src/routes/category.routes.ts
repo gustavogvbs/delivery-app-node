@@ -8,15 +8,9 @@ import { auth } from "@middleware/auth";
 
 const categoryRouter = Router();
 
-categoryRouter.post(
-  "/create",
-  async (req: Request, __: Response, next: NextFunction) => {
-    auth.execute(req, next, role.TENANT);
-  },
-  async (req: Request, res: Response) => {
-    await createCategoryController.handle(req, res);
-  },
-);
+categoryRouter.post("/create", async (req: Request, res: Response) => {
+  await createCategoryController.handle(req, res);
+});
 
 categoryRouter.patch(
   "/:slug",

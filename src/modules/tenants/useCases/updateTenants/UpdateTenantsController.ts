@@ -10,8 +10,6 @@ export class UpdateTenantController {
     const { slug, name, city, primaryColor, phone, permission } = req.body;
     const { id } = req.params;
 
-    console.log(req.body, "update");
-
     if (!id) {
       throw new AppError("Propriedades não encontradas", 400);
     }
@@ -25,8 +23,6 @@ export class UpdateTenantController {
       slug,
       token,
     });
-
-    console.log(result, "teste");
 
     return res.status(204).json(result);
   }

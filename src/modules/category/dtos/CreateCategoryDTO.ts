@@ -7,7 +7,7 @@ export interface CreateCategoryData extends DefaultParams {
 
 export interface CreateCategoryRequest {
   name: string;
-  tenantId: string;
+  token: string;
 }
 
 export interface CreateCategoryResponse {

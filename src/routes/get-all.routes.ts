@@ -9,11 +9,11 @@ import { auth } from "@middleware/auth";
 
 const getAllRoutes = Router();
 
-getAllRoutes.get("/categories", async (req: Request, res: Response) => {
+getAllRoutes.get("/categories/:slug", async (req: Request, res: Response) => {
   await getAllCategoriesController.handle(req, res);
 });
 
-getAllRoutes.get("/products", async (req: Request, res: Response) => {
+getAllRoutes.get("/products/:slug", async (req: Request, res: Response) => {
   await getAllProductsController.handle(req, res);
 });
 

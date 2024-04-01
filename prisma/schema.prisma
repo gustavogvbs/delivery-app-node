@@ -65,11 +65,11 @@ model Tenant {
 model Category {
 id String @id @default(uuid())
 name String
-slug String @unique
+slug String
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
 
-tenantId String @unique
+tenantId String
 tenant Tenant @relation(fields: [tenantId], references: [id])
 
 products Product[]
@@ -87,9 +87,9 @@ created_at DateTime @default(now())
 updated_at DateTime @updatedAt
 image Json?
 
-tenantId String @unique
+tenantId String
 tenant Tenant @relation(fields: [tenantId], references: [id])
-categoryId String @unique
+categoryId String
 category Category @relation(fields: [categoryId], references: [id])
 
 @@map("products") 

@@ -1,5 +1,6 @@
 import {
   MeUserData,
+  MeUserRelationTenant,
   MeUserRequest,
   MeUserResponse,
 } from "@modules/user/dtos/MeUserDTO";
@@ -23,12 +24,25 @@ export class MeUseCase {
 
     if (!decoded.success) throw new AppError("jwt invalido", 403);
 
-    const user = await this.userRepository.findById(decoded.data.id);
+    const user = await this.userRepository.findById(
+      decoded.data.id,
+      data.query,
+    );
 
-    if (!user || user.role !== data.role) {
-      console.log(user, user?.role !== data.role, data.role);
+    if (!user) {
       throw new AppError("Usuario não encontrado", 405);
     }
+
+    const relationResult = user.tenant
+      ? this.formatterResponse.execute<MeUserRelationTenant>(user.tenant.id, {
+          city: user.tenant.city,
+          name: user.tenant.name,
+          phone: user.tenant.phone,
+          primaryColor: user.tenant.primaryColor,
+          slug: user.tenant.slug,
+          userId: user.tenant.userId,
+        })
+      : undefined;
 
     const result = this.formatterResponse.execute<MeUserData>(user.id, {
       name: user.name,
@@ -36,6 +50,7 @@ export class MeUseCase {
       phone: user.phone,
       created_at: user.created_at,
       updated_at: user.updated_at,
+      tenant: relationResult?.data ?? undefined,
     });
 
     return result;
