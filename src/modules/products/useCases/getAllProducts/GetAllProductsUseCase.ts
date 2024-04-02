@@ -35,7 +35,6 @@ export class GetAllProductsUseCase {
       const datas: Array<GetAllProductsData> = [];
 
       products.forEach((product, index) => {
-        console.log("ola");
         const { category } = product;
         ids.push(product.id);
         i.push(index);

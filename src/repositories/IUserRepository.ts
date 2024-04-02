@@ -1,4 +1,4 @@
-import { $Enums, Tenant, User } from "@prisma/client";
+import { $Enums, Order, Tenant, User } from "@prisma/client";
 
 export interface DataCreateUser {
   name: string;
@@ -28,5 +28,5 @@ export interface IUserRepository {
   findById(
     id: string,
     query?: string[],
-  ): Promise<(User & { tenant: Tenant | null }) | null>;
+  ): Promise<(User & { tenant?: Tenant | null; orders: Order[] }) | null>;
 }
