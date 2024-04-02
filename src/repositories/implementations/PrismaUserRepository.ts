@@ -1,4 +1,4 @@
-import { $Enums, Tenant, User } from "@prisma/client";
+import { $Enums, Order, Tenant, User } from "@prisma/client";
 
 import { prisma } from "@configs/client";
 
@@ -32,7 +32,7 @@ export class PrismaUserRepository implements IUserRepository {
   async findById(
     id: string,
     query?: string[],
-  ): Promise<(User & { tenant: Tenant | null }) | null> {
+  ): Promise<(User & { tenant?: Tenant | null; orders: Order[] }) | null> {
     const user = await prisma.user.findUnique({
       where: {
         id,

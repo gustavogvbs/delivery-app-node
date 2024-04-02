@@ -1,4 +1,4 @@
-import { Tenant } from "@prisma/client";
+import { Category, Order, Product, Tenant } from "@prisma/client";
 
 import {
   ITenantRepository,
@@ -8,10 +8,25 @@ import {
 import { prisma } from "@configs/client";
 
 export class PrismaTenantRepository implements ITenantRepository {
-  async findBySlug(slug: string): Promise<Tenant | null> {
+  async findBySlug(
+    slug: string,
+    query?: string[],
+  ): Promise<
+    | (Tenant & {
+        categories: Category[];
+        orders: Order[];
+        products: Product[];
+      })
+    | null
+  > {
     const tenant = await prisma.tenant.findUnique({
       where: {
         slug,
+      },
+      include: {
+        categories: query ? query.includes("categories") : false,
+        orders: query ? query.includes("orders") : false,
+        products: query ? query.includes("products") : false,
       },
     });
 
