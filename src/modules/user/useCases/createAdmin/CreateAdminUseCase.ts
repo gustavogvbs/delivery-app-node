@@ -1,3 +1,4 @@
+import { USERS_ROLES } from "@src/enums/RoleEnum";
 import bcrypt from "bcrypt";
 
 import {
@@ -8,7 +9,6 @@ import { IUserRepository } from "@repositories/IUserRepository";
 
 import { AppError } from "@errors/AppErro";
 import { IJwtApi } from "@utils/JwtApi";
-import { USERS_ROLES } from "@utils/RoleEnum";
 
 export class CreateAdminUseCase {
   constructor(
@@ -22,9 +22,9 @@ export class CreateAdminUseCase {
       USERS_ROLES.ADMIN,
     );
 
-    if (userAlreadyExists) throw new AppError("Email ja registrado.", 400);
     if (adminAlreadExists)
       throw new AppError("Ja existe um usuário como Admin.", 403);
+    if (userAlreadyExists) throw new AppError("Email ja registrado.", 400);
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(data.password, salt);

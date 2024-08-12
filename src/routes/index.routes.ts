@@ -7,6 +7,11 @@ import { registerRouter } from "@routes/register.routes";
 import { uploadRouter } from "@routes/upload.routes";
 import { userRouter } from "@routes/user.routes";
 
+import { adressRouter } from "./adress.routes";
+import { authRouter } from "./authenticate.routes";
+import { orderRouter } from "./order.routes";
+import { tenantRouter } from "./tenants.routes";
+
 const routes = Router();
 
 routes.use("/users", userRouter);
@@ -18,6 +23,14 @@ routes.use("/auth", registerRouter);
 routes.use("/category", categoryRouter);
 
 routes.use("/product", productRouter);
+
+routes.use("/tenant", tenantRouter);
+
+routes.use("/order", orderRouter);
+
+routes.use("/authenticate", authRouter);
+
+routes.use("/adress", adressRouter);
 
 routes.use(getAllRoutes);
 

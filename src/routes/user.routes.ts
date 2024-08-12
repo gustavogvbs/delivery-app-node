@@ -1,18 +1,21 @@
 import { Router, Response, Request } from "express";
 
-import { findUserController } from "@modules/user/useCases/findUser";
 import { loginUserController } from "@modules/user/useCases/loginUser";
-
-import { auth } from "@middleware/auth";
+import { logoutUserController } from "@modules/user/useCases/logoutUser";
+import { meController } from "@modules/user/useCases/me";
 
 const userRouter = Router();
 
-userRouter.get("/login", async (req: Request, res: Response) => {
+userRouter.post("/login", async (req: Request, res: Response) => {
   await loginUserController.handle(req, res);
 });
 
-userRouter.get("/:id", auth.client, async (req: Request, res: Response) => {
-  await findUserController.handle(req, res);
+userRouter.get("/logout", async (req: Request, res: Response) => {
+  await logoutUserController.handle(req, res);
+});
+
+userRouter.get("/me/:role", async (req: Request, res: Response) => {
+  await meController.handle(req, res);
 });
 
 export { userRouter };

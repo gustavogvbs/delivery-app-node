@@ -1,11 +1,19 @@
+import { DefaultParams } from "@utils/DefaultParams";
+
 export interface FindUserRequest {
   id: string;
+  token: string;
+}
+
+export interface FindUserData extends DefaultParams {
+  name: string;
+  email: string;
+  phone: string;
 }
 
 export interface FindUserResponse {
-  id: string;
-  name: string;
-  email: string;
-  updated_at: Date;
-  created_at: Date;
+  data: {
+    id: string;
+    attributes: FindUserData;
+  };
 }

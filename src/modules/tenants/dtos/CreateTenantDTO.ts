@@ -1,4 +1,4 @@
-import { USERS_ROLES as typerole } from "@utils/RoleEnum";
+import { USERS_ROLES as typerole } from "@src/enums/RoleEnum";
 
 export interface CreateTenantRequest {
   user: {
@@ -15,13 +15,21 @@ export interface CreateTenantRequest {
   };
 }
 
+export interface CreateTenantData {
+  name: string;
+  slug: string;
+  city: string;
+  primaryColor: string;
+  phone: string;
+  permission: boolean;
+}
+
 export interface CreateTenantResponse {
   token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    updated_at: Date;
-    created_at: Date;
+  tenant: {
+    data: {
+      id: string;
+      attributes: CreateTenantData;
+    };
   };
 }

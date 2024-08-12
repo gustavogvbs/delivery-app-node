@@ -12,8 +12,8 @@ export interface IUpdateCategoryData {
 
 export interface ICategoryRepository {
   createCategory(data: ICreateCategoryData): Promise<Category>;
-  getAllCategories(idTenant: string): Promise<Category[]>;
+  getAllCategories(id: string): Promise<Category[]>;
   findById(id: string): Promise<Category | null>;
-  findBySlug(slug: string): Promise<Category | null>;
+  findBySlug(slug: string, id: string): Promise<Category | null>;
   updateCategory({ slug, name }: IUpdateCategoryData): Promise<Category>;
 }

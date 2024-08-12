@@ -1,7 +1,7 @@
+import { USERS_ROLES } from "@src/enums/RoleEnum";
 import { Request, Response } from "express";
 
 import { AppError } from "@errors/AppErro";
-import { USERS_ROLES } from "@utils/RoleEnum";
 
 import { CreateTenantUseCase } from "./CreateTenantsUseCases";
 
@@ -37,6 +37,6 @@ export class CreateTenantController {
       },
     });
 
-    return res.status(201).json(result);
+    return res.status(201).json(result.tenant);
   }
 }

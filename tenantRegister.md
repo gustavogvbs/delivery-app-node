@@ -1,16 +1,26 @@
-## Controller
+## Orders ->
 
-receber = idTenant, name
+### -> createOrder
 
-## UseCase
+- Precisa receber as seguintes informações:
 
-- verificar se idTenant é valido
-- gerar o slug apartir do retorno do tenat.slug + name
-- criar uma nova categoria na tabela category conectando com o idTenant
-- return a resposta da criação da categoria
+- total == string
+- typePayment == enum[cartão, dinheiro, pix]
+- payback = number
+- troco == string
+- products == Json
+- idTenant == string
+- idUser == string
 
-### Atenção
+relacionar o pedido com o tenant e o user atravez do id
 
-- dentro de useCase vc precisa ter uma variavel privada contro do contructor com os seguintes itens
-  -- ICategoryRepository
-  -- ITenantRepository
+-> getOrder
+
+- Precisa receber as seguintes informações:
+
+  - id
+  - idUser
+
+verificar userId é igual ao id do client ou do estabelecimento se for retorna o pedido se não retorna erro
+
+-> getAllOrders
